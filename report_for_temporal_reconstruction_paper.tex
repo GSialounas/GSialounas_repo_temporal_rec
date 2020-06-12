@@ -395,7 +395,8 @@ The bound is then given by
 \end{equation}
 Notice in particular the constant $2\pnorm{\qp{\hat{e}_U,\hat{e}_V}\qp{0}}^2$ on the rhs of the equation.  This is extremely significant because, as we will see in the next section, for $T\sim1$ it will constitute an imporant component of the error.  
 \section{Numerical Experiments}\label{sec_num_exp}
-The objectives in this section are to study the performance of the indicator \begin{equation}\label{eq_bound_test}
+The objectives in this section are to study the performance of the indicator 
+\begin{equation}\label{eq_bound_test}
 \eta_1=\qp{2\pnorm{\qp{\hat{e}_U,\hat{e}_V}\qp{0}}^2+
 	4\qp{\int_0^{t^N}\pnorm{\qp{\mathcal{R}_2,\mathcal{R}_1}}\mathrm{d}t}^2}^{1/2}
 \end{equation}
@@ -786,14 +787,18 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 
 
 \subsection{Discussion}
+In this section we discuss the findings from the numerical experiments.  Briefly, we tested the aposterior bound (\ref{eq_bound_test}) with three different reconstructions: Defns. \ref{defn_our_rec}, \ref{defn_our_rec2} and the one from \cite{georgoulis2016posteriori}.  The error was measured in the $L^{\infty}-$norm in time.  We investigated the temporal evolution of the errors (\ref{eq_error_eR}) and (\ref{eq_error_eL}), the bound (\ref{eq_bound_test}).   We compare the performances of the reconstructions in terms of their EOCs and the Effectivity index.
 
+Firstly,  all three 
 
 %%%%%%
+\/*
 In the first set of experiments $\qp{u_0, v_0} = \qp{0,1}$ the reconstruction from \cite{georgoulis2016posteriori} replicates the behaviour of the error more closely than the  reconstructions from Defn. \ref{defn_our_rec} and \ref{defn_our_rec2}.  Between the latter two, the one from Defn. \ref{defn_our_rec2} has a steeper increase.  It is worth noticing that in the reconstruction from Defn.\ref{defn_our_rec}, the initial error does not contribute at all as it is 0.  This manifests in the bound as a calculation of $0/0$ is not allowed and hence, the plot starts from the next pair of values.
 
 In the second set of experiments, $\qp{u_0, v_0} = \qp{1,0}$, the reconstruction from (\ref{defn_our_rec}) performs similarly to that of \cite{georgoulis2016posteriori}.  There appears to be an issue with the reconstruction from Defn. \ref{defn_our_rec2} however, as it is not even a bound from the first 0.5 s.  It is very likely that this is a coding bug.
 
 In the last set of experiments, $\qp{u_0, v_0} = \qp{1,1}$, the reconstruction from (\ref{defn_our_rec2})) outperforms the other two.
+*/
 \bibliography{apostfd_bibdesk}
 \bibliographystyle{ieeetr}
 \end{document}
