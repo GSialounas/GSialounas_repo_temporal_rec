@@ -175,7 +175,7 @@
 In this work we investigate and compare the behaviour of three different reconstructions using the simple harmonic oscillator as a test problem.  Two of the the three reconstructions are constructed using our method  of fitting an interpolant using the numerical solution and its derivatives.  The other reconstruction is constructed using the method of \cite{georgoulis2016posteriori}.  
 
 The rest of this report is structured as follows.  We present the model problem and the leap frog scheme we will use to simulate it.  Then we present the reformulation of the leap frog scheme, which is what  \cite{georgoulis2016posteriori} used in order to facilitate a comparison between our reconstructions.  Next we present the error equations and the a-posteriori bound from \cite{georgoulis2016posteriori}. Lastly, we test all three reconstructions on the basis of this result and conclude the report.
-
+\section{Setup}
 \subsection{Model Problem}\label{subsec_modelprob}
 We consider the linear second order problem: find $u:\qb{0,T}\rightarrow \mathbb{R}$ such that
 \begin{equation}\label{eq_model_problem}
@@ -186,7 +186,7 @@ u'\qp{0}&=v_0.
 \end{aligned}
 \end{equation}
 
-\subsection{Leapfrog Scheme}\label{subsect_leapfrog}
+\subsection{Numerical Scheme}\label{subsect_leapfrog}
 We choose a time step $\Delta t$, for our scheme, and $N\in\mathbb{N}$ that $N\Delta t=T$. The leapfrog scheme for (\ref{eq_model_problem}) is defined by 
 \begin{equation}\label{eq_model_discrete}
 \partial^2U^{n+1}+U^n=0,\quad n= 1,\cdots, N-1, 
@@ -311,25 +311,15 @@ We test two different reconstructions.  The difference between them lies in the 
 	\begin{aligned}
 	&\rec{U}|_{\qb{t_n,t_{n+1}}}\qp{t_i}=U_i \quad \text{for}\quad i= n, n+1,\\
 	&\rec{U}''|_{\qb{t_n,t_{n+1}}}\qp{t_n}=-U_n,\\
-	&	\rec{V}|_{\qb{t_n,t_{n+1}}}\qp{t_{n+1/2}}=V_{n+1/2}\quad\text{and}\\
-	&	\rec{V}'|_{\qb{t_n,t_{n+1}}}\qp{t}=-\rec{U}\qp{t}\quad \forall t\in\qb{t_n,t_{n+1}}.\\
+     &\rec{V}|_{\qb{t_n,t_{n+1}}}\qp{t_i}=V_i \quad \text{for}\quad i= n, n+1,\\
+	&	\rec{V}'|_{\qb{t_n,t_{n+1}}}\qp{t}=-\rec{U}\qp{t}\quad \forall t\in\qb{t_n,t_{n+1}}.
 	\end{aligned}
 	\end{equation}
+	The conditions for $\rec{V}$ will fix two of the four coefficients required to define a third order polynomial.  The remaining two coefficients are obtained by its relation to the reconstruction for $\rec{U}$, as shown in \S \ref{sec:sample_rec}.
 \end{Defn}
 
-\begin{Defn}[ ]\label{defn_our_rec2_reverse}
-	The reconstruction, $\qp{\rec{U},\rec{V}}$ of the numerical solution $\qp{U,V}$ of (\ref{eq_harmonic_discretization}) are the unique functions $\rec{V}\in \mathbb{V}_2$, $\rec{U}\in\mathbb{V}_3$ satisfying
-	\begin{equation}
-	\begin{aligned}
-	&\rec{V}|_{\qb{t_n,t_{n+1}}}\qp{t_i}=.5\qp{V_{n-1/2}+V_{n+1/2}} \quad \text{for}\quad i= n, n+1,\\
-	&\rec{V}'|_{\qb{t_n,t_{n+1}}}\qp{t_{n+1/2}}=-U_n,\\
-	&	\rec{U}|_{\qb{t_n,t_{n+1}}}\qp{t_{n+1}}=U_{n+1}\quad\text{and}\\
-	&	\rec{U}'|_{\qb{t_n,t_{n+1}}}\qp{t}=-\rec{V}\qp{t}\quad \forall t\in\qb{t_n,t_{n+1}}.\\
-	\end{aligned}
-	\end{equation}
-\end{Defn}
 
-\subsection{Sample reconstruction}
+\subsection{Sample reconstruction}\label{sec:sample_rec}
 In this section we demonstrate the reconstruction that arises using Defn. \ref{defn_our_rec2}.
 The reconstruction $\hat{U}$ for $u$ is constructed as follows:
 \begin{equation}
@@ -344,10 +334,10 @@ The reconstruction $\hat{V}$ for $v$ is constructed as follows:
 \begin{equation}
 \begin{aligned}
 \hat{V}\qp{t}|_{\qb{{t_n, t_{n+1}}}}&= c_{0,v} +c_{1,v}\qp{t-t_n} +c_{2,v}\qp{t-t_n}^2+c_{3,v}\qp{t-t_n}^3,\quad\text{where}\\
+c_{0,v} &=\frac{1}{2}\qp{V^{n-1/2}+V^{n+1/2} },\\
 c_{1,v} &= -c_{0,u},\\
-c_{2,v} &= -\frac{1}{2}c_{1,u},\\
-c_{3,v} &= -\frac{1}{3}c_{2,u}\quad \text{and}\\
-c_{0,v} &=V^{n+1/2} - c_{1,v}\frac{\Delta t}{2} - c_{2,v}\frac{\Delta t^2}{4} - c_{3,v}\frac{\Delta t^3}{8}.
+c_{2,v} &= -\frac{1}{2}c_{1,u}\text{  and}\\
+c_{3,v} &= \frac{1}{2}\qp{V^{n+1/2}+V^{n+3/2} }-c_{0,v}- c_{1,v}\Delta t- c_{2,v}\Delta t^2
 \end{aligned}
 \end{equation}
 \subsection{Error equation and estimators}\label{subsec_error_estimators}
@@ -516,7 +506,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 
 
 */
-\section{Scaled boundary conditions for Tristan's reconstruction}
+\section{Numerical Experiments}\label{sec:num_exp}
 \subsection{$u_0=0, v_0= 1$}
 \begin{figure}[H]
 	\hspace{-3cm}
@@ -785,20 +775,17 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 
 
 
-
 \subsection{Discussion}
-In this section we discuss the findings from the numerical experiments.  Briefly, we tested the aposterior bound (\ref{eq_bound_test}) with three different reconstructions: Defns. \ref{defn_our_rec}, \ref{defn_our_rec2} and the one from \cite{georgoulis2016posteriori}.  The error was measured in the $L^{\infty}-$norm in time.  We investigated the temporal evolution of the errors (\ref{eq_error_eR}) and (\ref{eq_error_eL}), the bound (\ref{eq_bound_test}).   We compare the performances of the reconstructions in terms of their EOCs and the Effectivity index.
+In this section we discuss the findings from the numerical experiments.  Briefly, we tested the aposterior bound (\ref{eq_bound_test}) with three different reconstructions: Defns. \ref{defn_our_rec}, \ref{defn_our_rec2} and the one from \cite{georgoulis2016posteriori}, given in (\ref{eq_rec_paper}).  The error was measured in the $L^{\infty}-$norm in time. 
 
-Firstly,  all three 
+ We investigated the temporal evolution of the errors (\ref{eq_error_eR}) and (\ref{eq_error_eL}) and the bound (\ref{eq_bound_test}) and we compared the performances of the three reconstructions in terms of their EOCs and the Effectivity index.
 
-%%%%%%
-\/*
-In the first set of experiments $\qp{u_0, v_0} = \qp{0,1}$ the reconstruction from \cite{georgoulis2016posteriori} replicates the behaviour of the error more closely than the  reconstructions from Defn. \ref{defn_our_rec} and \ref{defn_our_rec2}.  Between the latter two, the one from Defn. \ref{defn_our_rec2} has a steeper increase.  It is worth noticing that in the reconstruction from Defn.\ref{defn_our_rec}, the initial error does not contribute at all as it is 0.  This manifests in the bound as a calculation of $0/0$ is not allowed and hence, the plot starts from the next pair of values.
+Firstly,  all three reconstructions were of optimal order in all numerical experiments in \S \ref{sec:num_exp}. This means that all of them converged with the same order as the underlying error of the numerical scheme.  
+Additionally, all three reconstructions lead to robust a posteriori estimates in the sense that there is no constant in the estimate that goes to infinity even though the error is finite.
 
-In the second set of experiments, $\qp{u_0, v_0} = \qp{1,0}$, the reconstruction from (\ref{defn_our_rec}) performs similarly to that of \cite{georgoulis2016posteriori}.  There appears to be an issue with the reconstruction from Defn. \ref{defn_our_rec2} however, as it is not even a bound from the first 0.5 s.  It is very likely that this is a coding bug.
+The difference between the three reconstructions is in terms of their efficiency.  The reconstruction in \ref{eq_rec_paper} led to a sharper estimate in (\ref{eq_bound_test}) compared to the reconstructions from Defns. \ref{defn_our_rec} and \ref{defn_our_rec2}.  This can be seen from the Effectivity Index (last subplot on the right) in the figures in \S\ref{sec:num_exp}.
 
-In the last set of experiments, $\qp{u_0, v_0} = \qp{1,1}$, the reconstruction from (\ref{defn_our_rec2})) outperforms the other two.
-*/
+
 \bibliography{apostfd_bibdesk}
 \bibliographystyle{ieeetr}
 \end{document}
