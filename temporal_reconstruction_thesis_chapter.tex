@@ -61,6 +61,13 @@
 \newcommand{\polygs}[3]{\mathbb{P}^{#1}\qp{#2,#3}}
 \newcommand{\Gs}{\mathbb{R}}
 \newcommand{\pnorm}[1]{\left|\left|\left|#1\right|\right|\right|}
+\newcommand{\norm}[1]{\left|#1\right|}
+\newcommand{\Norm}[1]{\left|\left|#1\right|\right|}
+\newcommand{\vect}[1]{\textbf{#1}}
+\newcommand{\leb}{\text{L}}
+\newcommand{\innerprod}[1]{\langle\langle#1\rangle\rangle}
+\newcommand{\innerprodsingle}[1]{\langle#1\rangle}
+%\newcommand{\innerprod2}[1]{\langle\langle#1\rangle\rangle}
 \newcommand{\rP}{\ensuremath{\mathbb P}\xspace}
 \newcommand{\poly}[1]{\ensuremath{\rP}^{#1}}
 \newcommand{\qp}[1]{\left(#1\right)}
@@ -82,6 +89,8 @@
 \renewcommand{\baselinestretch}{1.25}
 \newtheorem{Defn}[subsection]{Definition}
 \newtheorem{Thm}[subsection]{Theorem}
+\newtheorem{Proposition}[subsection]{Proposition}
+\newtheorem{Lemma}[subsection]{Lemma}
 \newtheorem{Rem}[subsection]{Remark}
 \newtheorem{Example}[subsection]{Example}
 %\linespread{1.3}
@@ -109,7 +118,7 @@
 		\rule{\textwidth}{0.4pt} % Thin horizontal rule
 	%	\vspace{0.75\baselineskip} % Whitespace above the title
 		
-		{\LARGE Chapter on Temporal \\Reconstruction\\} % Title
+		{\LARGE Temporal Reconstruction for  \\Second Order Evolution Problems\\} % Title
 		
 		\vspace{0.75\baselineskip} % Whitespace below the title
 		
@@ -186,8 +195,8 @@
 In this chapter we investigate and compare the behaviour of three different reconstructions using the simple harmonic oscillator as a test problem.  Two of the the three reconstructions are constructed using our method  of fitting an interpolant using the numerical solution and its derivatives.  The other reconstruction is constructed using the method of \cite{georgoulis2016posteriori}.  
 We will derive the a-posteriori estimator using the stability framework of the differential equation.  We will then use each of the three reconstructions to obtain residuals to be used with this estimator.  We will compare the performance of the three reconstructions on the basis of their ability to replicate the behaviour of the underlying error of the equation.
 
-The rest of the chapter is structured as follows.  We present the model problem and the leap frog scheme we will use to simulate it.  Then we present the reformulation of the leap frog scheme, which is what  \cite{georgoulis2016posteriori} used in order to facilitate a comparison between our reconstructions.  Next we present the error equations and the a-posteriori bound from \cite{georgoulis2016posteriori}. Lastly, we test all three reconstructions on the basis of this result and conclude the report.
-\section{Setup}
+The rest of the chapter is structured as follows.  In \S \ref{sec:setup} we present the model problem and the leap frog scheme we will use to simulate it.  In \ref{sec_reformulation} we present the reformulation of the leap frog scheme, which is what  \cite{georgoulis2016posteriori} used in order to facilitate the derivation of their bound.  In \S \ref{sec_bounds} we present the reconstructions we will be comparing in terms of performance.  These include the reconstruction  of \cite{georgoulis2016posteriori} and the ones we will derive in this chapter. We will also present the a-posteriori bound from \cite{georgoulis2016posteriori} in this section.  In \S \ref{sec:num_exp} we present the numerical experiments we used to test the reconstructions, followed by the relevant test results.  We conclude the chapter in \S \ref{sec:discussion}, where we also discuss the test results.
+\section{Setup}\label{sec:setup}
 \subsection{The model problem and notation}\label{subsec_modelprob}
 We let $\qp{H,\langle \cdot,\cdot\rangle}$ be a Hilbert space and we let $\mathcal{A}:\qb{0,T}\rightarrow D\qp{\mathcal{A}}$ where $D\qp{\mathcal{A}}$ is the domain of the operator $\mathcal{A}$.  We consider the linear second order hyperbolic problem: find $u:\qb{0,T}\rightarrow \mathbb{R}$ such that
 \begin{equation}\label{eq_model_problem}
@@ -416,9 +425,9 @@ We define the following error equations for $u$ and $v$ as
 
 \begin{Defn}[Error equations]
 The error equations (see \cite[eq. 3.2]{georgoulis2016posteriori}) are given by 
-\begin{equation}
+\begin{equation}\label{eq_error_eqs}
 \begin{aligned}
-\hat{e}'_V+\hat{e}_U&=\mathcal{R}_1\\
+\hat{e}'_V+\mathcal{A}\hat{e}_U&=\mathcal{R}_1\\
 \hat{e}'_U-\hat{e}_V&=\mathcal{R}_2,
 \end{aligned}
 \end{equation}
@@ -445,15 +454,32 @@ whereas for the reconstruction in Defn. \ref{defn_our_rec}, these are given by
 \mathcal{R}_2&:=\hat{U}'-\hat{V}.
 \end{aligned}
 \end{equation}
-The reconstruction residuals are used in the computation of the bound in \cite[Thm 3.1]{georgoulis2016posteriori}.  The inner product used in the computation is the standard energy inner product
+The reconstruction residuals are used in the computation of the bound in \cite[Thm 3.1]{georgoulis2016posteriori}. In order to present this result we will first introuce some notation.
+
+Let $\Phi=\qp{\phi_1, \phi_2}$, $\Psi =\qp{\psi_1,\psi_2}\in D\qp{\mathcal{A}}\times H$ where $D\qp{\mathcal{A}}$ and $H$ are defined in \S \ref{sec:setup}.  The inner product used in the computation is the standard energy inner product on $\qb{D\qp{\mathcal{A}}\times H}^2$
+\begin{equation}\label{defn_innerprod}
+\langle\langle \Phi,\Psi \rangle\rangle:= \langle \mathcal{A}^{1/2}\phi_1, \mathcal{A}^{1/2}\psi_1  \rangle + \langle \phi_1. \psi_1  \rangle,
+\end{equation}
+which induces the norm
 \begin{equation}
-\langle\langle \Phi,\Psi \rangle\rangle:= \langle \mathcal{A}^{1/2}\phi_1, \mathcal{A}^{1/2}\psi_1  \rangle + \langle \phi_1. \psi_1  \rangle
+\pnorm{\Phi} = \qp{\Normgs{\mathcal{A}^{1/2}\phi_1} + \Normgs{\phi_2}}^{1/2}.
 \end{equation}
 In the case we are interested in, where $\mathcal{A}=I$,  this induces the norm
 \begin{equation}
 \left|\left|\left|\left(\mathcal{R}_2, \mathcal{R}_1\right)\right|\right|\right| = (\mathcal{R}_2^2 +\mathcal{R}_1^2)^{1/2}.
 \end{equation}
-This leads us to the main result from \cite[Thm 3.1]{georgoulis2016posteriori}
+This leads us to the main result from \cite[Thm 3.1]{georgoulis2016posteriori}.  Before we present the result and its proof we include a helpful Lemma.
+\begin{Lemma}[Cauchy Inequality with $\epsilon$]
+	Let $a,b \in \mathbb{R}$ and $\epsilon>0]$.  Then
+	\begin{equation}\label{eq_cauchy_ineq_eps}
+	ab\leq \epsilon a^2 +\frac{1}{4\epsilon}b^2.
+	\end{equation}
+\end{Lemma}
+\begin{proof}
+	\begin{equation*}
+	0\leq \qp{\sqrt{\epsilon}a-\frac{1}{2\sqrt{\epsilon}b}}^2\implies ab\leq \epsilon a^2 +\frac{1}{4\epsilon}b^2
+	\end{equation*}
+\end{proof}
 \begin{Thm}[A-posteriori error bound for (\ref{eq_model_problem})]
 Let $u$ be the solution of (\ref{eq_model_problem}), $\hat{e}_u:=u-\rec{U}$ and $\hat{e}_v:=v-\rec{V}$ .  Then the following a posteriori error estimate holds
 \begin{equation}\label{eq_bound}
@@ -463,10 +489,74 @@ Let $u$ be the solution of (\ref{eq_model_problem}), $\hat{e}_u:=u-\rec{U}$ and 
 \end{equation}
 where $\mathcal{R}_1$ and $\mathcal{R}_2$ are defined in (\ref{eq_residuals_paper}) or (\ref{eq_residuals_our}).
 \end{Thm}
+\begin{proof}
+The estimate follows by applying energy arguments to (\ref{eq_error_eqs}).  The starting point is to test $\qp{\hat{e}_U', \hat{e}_V'}$ with $\qp{\hat{e}_U, \hat{e}_V}$, giving
+\begin{equation}
+\begin{aligned}
+\frac{1}{2}\frac{\mathrm{d}}{\mathrm{d}t}\pnorm{\qp{\hat{e}_U,\hat{e}_V}}^2
+    &=\innerprod{\qp{\hat{e}_U', \hat{e}_V'}, \qp{\hat{e}_U, \hat{e}_V}}\\
+    &=\innerprodsingle{\mathcal{A}\hat{e}_U',\hat{e}_U}+\innerprodsingle{\hat{e}_V',\hat{e}_V}\quad \text{by}\qp{\ref{defn_innerprod}}\\
+    &=\innerprodsingle{\mathcal{A}\hat{e}_V,\hat{e}_U}
+    +\innerprodsingle{\mathcal{A}\mathcal{R}_2,\hat{e}_U}
+    -\innerprodsingle{\mathcal{A}\hat{e}_U,\hat{e}_V}
+    +\innerprodsingle{\mathcal{R}_1,\hat{e}_V}\\
+    &=\innerprodsingle{\mathcal{A}\mathcal{R}_2,\hat{e}_U}
+    + \innerprodsingle{\mathcal{R}_1,\hat{e}_V}.
+\end{aligned}
+\end{equation}
+We then use the Cauchy-Schwarz inequality to obtain
+\begin{equation}\label{eq_bound_cauchyschwarz}
+\frac{1}{2}\frac{\mathrm{d}}{\mathrm{d}t}\pnorm{\qp{\hat{e}_U,\hat{e}_V}}^2
+  \leq  \pnorm{\qp{\mathcal{R}_2,\mathcal{R}_1}} \pnorm{\qp{\hat{e}_U,\hat{e}_V}}
+\end{equation}
+In order to proceed we define
+\begin{equation}\label{eq_sup_pnorm}
+\pnorm{\qp{\hat{e}_U, \hat{e}_V}\qp{\tau}}=\sup_{t\in\qb{0,t^N}}\pnorm{\qp{\hat{e}_U, \hat{e}_V}\qp{t}}.
+\end{equation}
+Integrating (\ref{eq_bound_cauchyschwarz}) from $0$ to $\tau$ yields
+\begin{equation}
+\small
+\begin{aligned}
+\frac{1}{2}\pnorm{\qp{\hat{e}_U, \hat{e}_V}\qp{\tau}}^2&\leq
+\frac{1}{2}\pnorm{\qp{\hat{e}_U, \hat{e}_V}\qp{0}}^2
++\int_0^\tau\pnorm{\qp{\mathcal{R}_2,\mathcal{R}_1}\qp{t}} \pnorm{\qp{\hat{e}_U,\hat{e}_V}\qp{t}}\mathrm{d}t\\
+&\leq \frac{1}{2}\pnorm{\qp{\hat{e}_U, \hat{e}_V}\qp{0}}^2
++\pnorm{\qp{\hat{e}_U,\hat{e}_V}\qp{\tau}}\int_0^\tau\pnorm{\qp{\mathcal{R}_2,\mathcal{R}_1}\qp{t}} \mathrm{d}t,
+\end{aligned}
+\end{equation}
+where we have used (\ref{eq_sup_pnorm}).
+Using (\ref{eq_cauchy_ineq_eps}) with $\epsilon=1$, $a=\int_0^\tau\pnorm{\qp{\mathcal{R}_2,\mathcal{R}_1}\qp{t}} \mathrm{d}t$ and $b=\pnorm{\qp{\hat{e}_U,\hat{e}_V}\qp{\tau}}$ for the product term on the rhs and multiplying by two throughout yields the required result.
+\end{proof}
 
 \begin{Rem}[The error at $t=0$]
-Notice the constant $2\pnorm{\qp{\hat{e}_U,\hat{e}_V}\qp{0}}^2$ in (\ref{eq_bound}).  The significance of this is that the initial error, depending on the chosen reconstruction, may not be $0$.  This is the case of the reconstruction by \cite{georgoulis2016posteriori}.
+	Notice the constant $2\pnorm{\qp{\hat{e}_U,\hat{e}_V}\qp{0}}^2$ in (\ref{eq_bound}).  The significance of this is that the initial error, depending on the chosen reconstruction, may not be $0$.  This is the case of the reconstruction by \cite{georgoulis2016posteriori}.
 \end{Rem}
+
+Before we proceed we will prove an additional bound.  In order to do this we will use an addional result
+\begin{Proposition}\label{lemma:L2_simplification}[$\leb_2$ simplification rule] If $\vect{a},\, \vect{b}\in \mathbb{R}^N,\, N\in \mathbb{N}$, $c\in \mathbb{R}$ and $f\,g \in \leb_2\qp{D}$ for some measurable domain $D$ are such that 
+	\begin{equation*}
+\norm{\vect{a}}^2 +\Norm{\vect{b}}^2\leq c^2+\vect{a}^T\vect{b}+\int_D fg,
+ 	\end{equation*}
+then
+\begin{equation}
+\qp{\norm{\vect{a}}^2 +\Norm{\vect{f}}^2}^{1/2}\leq \norm{c}+\qp{\norm{\vect{b}^2}+\Norm{g}^2}^{1/2}
+\end{equation}
+\end{Proposition}
+
+\begin{Lemma}[Second a-posteriori error bound for (\ref{eq_model_problem})]
+	Let $u$ be the solution of (\ref{eq_model_problem}), $\hat{e}_u:=u-\rec{U}$ and $\hat{e}_v:=v-\rec{V}$ .  Then the following error estimate holds
+	\begin{equation}\label{eq_bound_2}
+	\sup_{t\in\qb{0,t^N}}\pnorm{\qp{\hat{e}_U,\hat{e}_V}\qp{t}}\leq
+	\pnorm{\qp{\hat{e}_U,\hat{e}_V}\qp{0}}+
+	2{\int_0^{t^N}\pnorm{\qp{\mathcal{R}_2,\mathcal{R}_1}}\mathrm{d}t},
+	\end{equation}
+	where $\mathcal{R}_1$ and $\mathcal{R}_2$ are defined in (\ref{eq_residuals_paper}) or (\ref{eq_residuals_our}).
+\end{Lemma}
+\begin{proof}
+We use  Lemma  \ref{lemma:L2_simplification} with $\vect{a}=\frac{1}{\sqrt{2}}\pnorm{\qp{\hat{e}_U, \hat{e}_V}\qp{\tau}}$, $\vect{b}=\sqrt{2}\int_0^\tau\pnorm{\qp{\mathcal{R}_2,\mathcal{R}_1}\qp{t}} \mathrm{d}t$ and $c = \frac{1}{\sqrt{2}}\pnorm{\qp{\hat{e}_U, \hat{e}_V}\qp{0}}$ and we obtain the required result.
+\end{proof}
+
+
 
 \section{Numerical Experiments}\label{sec_num_exp}
 The objectives in this section are to study the performance of the indicator 
@@ -861,7 +951,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 
 
 
-\section{Discussion}
+\section{Discussion}\label{sec:discussion}
 In this section we discuss the findings from the numerical experiments.  Briefly, we tested the aposterior bound (\ref{eq_bound_test}) with three different reconstructions: Defns. \ref{defn_our_rec}, \ref{defn_our_rec2} and the one from \cite{georgoulis2016posteriori}, given in (\ref{eq_rec_paper}).  The error was measured in the $L^{\infty}-$norm in time. 
 
  We investigated the temporal evolution of the error (\ref{eq_error_eR})  and the bound (\ref{eq_bound_test}) and we compared the performances of the three reconstructions in terms of their EOCs and the Effectivity index.
