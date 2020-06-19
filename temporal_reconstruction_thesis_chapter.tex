@@ -499,14 +499,28 @@ The estimate follows by applying energy arguments to (\ref{eq_error_eqs}).  The 
 \begin{equation}
 \begin{aligned}
 \frac{1}{2}\frac{\mathrm{d}}{\mathrm{d}t}\pnorm{\qp{\hat{e}_U,\hat{e}_V}}^2
-    &=\innerprod{\qp{\hat{e}_U', \hat{e}_V'}, \qp{\hat{e}_U, \hat{e}_V}}\\
-    &=\innerprodsingle{\mathcal{A}\hat{e}_U',\hat{e}_U}+\innerprodsingle{\hat{e}_V',\hat{e}_V}\quad \text{by}\qp{\ref{defn_innerprod}}\\
-    &=\innerprodsingle{\mathcal{A}\hat{e}_V,\hat{e}_U}
-    +\innerprodsingle{\mathcal{A}\mathcal{R}_2,\hat{e}_U}
-    -\innerprodsingle{\mathcal{A}\hat{e}_U,\hat{e}_V}
-    +\innerprodsingle{\mathcal{R}_1,\hat{e}_V}\\
-    &=\innerprodsingle{\mathcal{A}\mathcal{R}_2,\hat{e}_U}
-    + \innerprodsingle{\mathcal{R}_1,\hat{e}_V}.
+    &=\innerprod{\qp{\hat{e}_U', \hat{e}_V'}, \qp{\hat{e}_U, \hat{e}_V}}.
+\end{aligned}
+\end{equation}
+We now use (\ref{defn_innerprod}) to obtain 
+\begin{equation}
+\begin{aligned}
+\innerprod{\qp{\hat{e}_U', \hat{e}_V'}, \qp{\hat{e}_U, \hat{e}_V}}
+&=\innerprodsingle{\mathcal{A}\hat{e}_U',\hat{e}_U}+\innerprodsingle{\hat{e}_V',\hat{e}_V}\\
+&=\innerprodsingle{\mathcal{A}\hat{e}_V,\hat{e}_U}
++\innerprodsingle{\mathcal{A}\mathcal{R}_2,\hat{e}_U}
+-\innerprodsingle{\mathcal{A}\hat{e}_U,\hat{e}_V}
++\innerprodsingle{\mathcal{R}_1,\hat{e}_V}.
+\end{aligned}
+\end{equation}
+Substituting in from (\ref{eq_error_eqs}) gives 
+\begin{equation}
+\begin{aligned}
+\innerprodsingle{\mathcal{A}\hat{e}_U',\hat{e}_U}+\innerprodsingle{\hat{e}_V',\hat{e}_V}&
+=\innerprodsingle{\mathcal{A}\hat{e}_V,\hat{e}_U}
++\innerprodsingle{\mathcal{A}\mathcal{R}_2,\hat{e}_U}
+-\innerprodsingle{\mathcal{A}\hat{e}_U,\hat{e}_V}
++\innerprodsingle{\mathcal{R}_1,\hat{e}_V}.
 \end{aligned}
 \end{equation}
 We then use the Cauchy-Schwarz inequality to obtain
@@ -514,11 +528,11 @@ We then use the Cauchy-Schwarz inequality to obtain
 \frac{1}{2}\frac{\mathrm{d}}{\mathrm{d}t}\pnorm{\qp{\hat{e}_U,\hat{e}_V}}^2
   \leq  \pnorm{\qp{\mathcal{R}_2,\mathcal{R}_1}} \pnorm{\qp{\hat{e}_U,\hat{e}_V}}
 \end{equation}
-In order to proceed we define
+In what follows, we will be using the $\leb^\infty$-norm in time
 \begin{equation}\label{eq_sup_pnorm}
 \pnorm{\qp{\hat{e}_U, \hat{e}_V}\qp{\tau}}=\sup_{t\in\qb{0,t^N}}\pnorm{\qp{\hat{e}_U, \hat{e}_V}\qp{t}}.
 \end{equation}
-Integrating (\ref{eq_bound_cauchyschwarz}) from $0$ to $\tau$ yields
+Integrating (\ref{eq_bound_cauchyschwarz}) from $0$ to $\tau$, where $\tau$ is defined in (\ref{eq_sup_pnorm}), yields
 \begin{equation}
 \small
 \begin{aligned}
