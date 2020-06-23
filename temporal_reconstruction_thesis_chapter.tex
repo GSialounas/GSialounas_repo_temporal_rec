@@ -361,6 +361,16 @@ The reconstructions for $\rec{U}$ and $\rec{V}$ in \cite[\S3.1]{georgoulis2016po
 	\end{aligned}
 	\end{equation}
 	where
+	\begin{equation}
+\begin{aligned}
+c_{0,u} &= U^n,\\
+c_{1,u}&= (V^n+\rho_V),\\
+c_{2,u}&=\frac{1}{2\Delta t}\qp{V^{n+1}-V^n},\\
+c_{0,v} &= V^{n-1/2},\\
+c_{1,v}&= (-U^{n-1/2}+\rho_U),\\
+c_{2,v}&=\frac{1}{2\Delta t}\qp{U^{n+1/2}-U^{n-1/2}},\\
+\end{aligned}
+	\end{equation}
 \end{Defn}
 \begin{Rem}
 Note that differentiating (\ref{eq_rec_paper}) in time yields
