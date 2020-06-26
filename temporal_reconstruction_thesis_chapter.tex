@@ -372,6 +372,27 @@ c_{2,v}&=\frac{1}{2\Delta t}\qp{U^{n+1/2}-U^{n-1/2}},\\
 \end{aligned}
 	\end{equation}
 \end{Defn}
+
+\begin{Defn}[AlternativePolynomial version of the reconstruction from \cite{georgoulis2016posteriori}]\label{defn_rec_paper_poly+tristan}
+	The polynomial version of the reconstructions in Defn. \ref{defn_rec_paper} are given by 
+	\begin{equation}\label{eq_rec_paper_poly_alternative}
+	\begin{aligned}
+	\hat{U}|_{\qb{t^n{n-1} t^{n}}}\qp{t}&=c_{0,u}+c_{1,u}\qp{t-t^{n-1}}+c_{2,u}\qp{t-t^{n-1}}^2\quad \text{and}\\
+	\hat{V}|_{\qb{t^{n-1/2}, t^{n+1/2}}}\qp{t}&=c_{0,v}+c_{1,v}\qp{t-t^{n-1/2}}+c_{2,v}\qp{t-t^{n-1/2}}^2\quad\text{in }\qb{t_{n-1/2},t_{n+1/2}}.
+	\end{aligned}
+	\end{equation}
+	where
+	\begin{equation}
+	\begin{aligned}
+	c_{0,u} &= U^{n},\\
+	c_{1,u}&= (V^{n-1}+\rho_V)=-\frac{1}{4}V^{n+1/2}+V^{n-1/2}+\frac{1}{4}V^{n-3/2},\\
+	c_{2,u}&=\frac{1}{4\Delta t}\qp{V^{n+1/2}-V^n-2/},\\
+	c_{0,v} &= V^{n-1/2},\\
+	c_{1,v}&= \frac{1}{4}U^{n+1}-U^n-\frac{1}{4}U^{n-1}\\
+	c_{2,v}&=\frac{1}{4\Delta t}\qp{U^{n+1}-U^{n-1}},\\
+	\end{aligned}
+	\end{equation}
+\end{Defn}
 \begin{Rem}
 Note that differentiating (\ref{eq_rec_paper}) in time yields
 \begin{equation}\label{eq_model_recs}
@@ -412,6 +433,17 @@ Note that differentiating (\ref{eq_rec_paper}) in time yields
      &\rec{V}|_{\qb{t^n,t^{n+1}}}\qp{t^i}=V^i \quad \text{for}\quad i= n, n+1,\\
       &\rec{V}'|_{\qb{t^n,t^{n+1}}}\qp{t^n}=-\rec{U}|_{\qb{t^n,t^{n+1}}}\qp{t^n}\\
             &\rec{V}''|_{\qb{t^n,t^{n+1}}}\qp{t^n}=-\rec{U}'|_{\qb{t^n,t^{n+1}}}\qp{t^n}\\
+	\end{aligned}
+	\end{equation}
+\end{Defn}
+\begin{Defn}[ ]\label{defn_our_rec3}
+	The reconstruction, $\qp{\rec{U},\rec{V}}$ of the numerical solution $\qp{U,V}$ of (\ref{eq_harmonic_discretization}) consists of the unique functions $\rec{U}\in \mathbb{V}_2$, $\rec{V}\in\mathbb{V}_3$ satisfying
+	\begin{equation}\label{eq_rec3_conds}
+	\begin{aligned}
+	&\rec{U}|_{\qb{t^n,t^{n+1}}}\qp{t^i}=U^i \quad \text{for}\quad i= n, n+1,\\
+	&\rec{U}''|_{\qb{t^n,t^{n+1}}}\qp{t^n}=-U^n,\\
+	&\rec{V}|_{\qb{t^{n-1/2},t^{n+1/2}}}\qp{t^i}=V^i \quad \text{for}\quad i= n-1/2, n+1/2,\\
+	&\rec{V}'|_{\qb{t^{i-1/2},t^{i+1/2}}}\qp{t^i}=-\rec{U}|_{\qb{t^i,t^{i+1}}}\qp{t^i},\quad i = n, \, n+1\\
 	\end{aligned}
 	\end{equation}
 \end{Defn}
@@ -758,6 +790,13 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\label{fig_all_in_one_paperrec_poly_u0_v10}
 \end{figure}
 
+\begin{figure}[H]
+	\hspace{-3cm}
+	%\centering
+	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u0_v10_paperrec_poly_tristan}	
+	\caption{Polynomial  rec. from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
+	\label{fig_all_in_one_paperrec_poly_tristan_u0_v10}
+\end{figure}
 \subsection*{$u_0=0.1, v_0= 0.9$}
 
 \begin{figure}[H]
@@ -789,6 +828,13 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u1_v9_paperrec_poly}	
 	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},  EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_u01_v09}
+\end{figure}
+\begin{figure}[H]
+	\hspace{-3cm}
+	%\centering
+	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u1_v9_paperrec_poly_tristan}	
+	\caption{Polynomial  rec. from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
+	\label{fig_all_in_one_paperrec_poly_tristan_u1_v9}
 \end{figure}
 
 
@@ -823,7 +869,13 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\label{fig_all_in_one_paperrec_poly_u02_v08}
 \end{figure}
 
-
+\begin{figure}[H]
+	\hspace{-3cm}
+	%\centering
+	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u2_v8_paperrec_poly_tristan}	
+	\caption{Polynomial  rec. from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
+	\label{fig_all_in_one_paperrec_poly_tristan_u2_v8}
+\end{figure}
 
 \subsection*{$u_0=0.3, v_0= 0.7$}
 \begin{figure}[H]
@@ -855,7 +907,13 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\label{fig_all_in_one_paperrec_polynomial_u03_v07}
 \end{figure}
 
-
+\begin{figure}[H]
+	\hspace{-3cm}
+	%\centering
+	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u3_v7_paperrec_poly_tristan}	
+	\caption{Polynomial  rec. from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
+	\label{fig_all_in_one_paperrec_poly_tristan_u3_v7}
+\end{figure}
 
 \subsection*{$u_0=0.4, v_0= 0.6$}
 \begin{figure}[H]
@@ -887,7 +945,13 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\label{fig_all_in_one_paperrec_poly_u04_v06}
 \end{figure}
 
-
+\begin{figure}[H]
+	\hspace{-3cm}
+	%\centering
+	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u4_v6_paperrec_poly_tristan}	
+	\caption{Polynomial  rec. from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
+	\label{fig_all_in_one_paperrec_poly_tristan_u4_v6}
+\end{figure}
 
 \subsection*{$u_0=0.5, v_0= 0.5$}
 \begin{figure}[H]
@@ -917,6 +981,13 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u5_v5_paperrec_poly}	
 	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},   EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_u05_v05}
+\end{figure}
+\begin{figure}[H]
+	\hspace{-3cm}
+	%\centering
+	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u5_v5_paperrec_poly_tristan}	
+	\caption{Polynomial  rec. from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
+	\label{fig_all_in_one_paperrec_poly_tristan_u5_v5}
 \end{figure}
 
 \subsection*{$u_0=0.6, v_0= 0.4$}
@@ -949,6 +1020,14 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\label{fig_all_in_one_paperrec_poly_u06_v04}
 \end{figure}
 
+\begin{figure}[H]
+	\hspace{-3cm}
+	%\centering
+	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u6_v4_paperrec_poly_tristan}	
+	\caption{Polynomial  rec. from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
+	\label{fig_all_in_one_paperrec_poly_tristan_u6_v4}
+\end{figure}
+
 \subsection*{$u_0=0.7, v_0= 0.3$}
 \begin{figure}[H]
 	\hspace{-3cm}
@@ -977,6 +1056,14 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u7_v3_paperrec_poly}	
 	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},   EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_u07_v03}
+\end{figure}
+
+\begin{figure}[H]
+	\hspace{-3cm}
+	%\centering
+	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u7_v3_paperrec_poly_tristan}	
+	\caption{Polynomial  rec. from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
+	\label{fig_all_in_one_paperrec_poly_tristan_u7_v3}
 \end{figure}
 
 \subsection*{$u_0=0.8, v_0= 0.2$}
@@ -1008,6 +1095,13 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},   EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_u08_v02}
 \end{figure}
+\begin{figure}[H]
+	\hspace{-3cm}
+	%\centering
+	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u8_v2_paperrec_poly_tristan}	
+	\caption{Polynomial  rec. from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
+	\label{fig_all_in_one_paperrec_poly_tristan_u8_v2}
+\end{figure}
 
 
 \subsection*{$u_0=0.9, v_0= 0.1$}
@@ -1038,6 +1132,13 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u9_v1_paperrec_poly}	
 	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},   EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_u09_v01}
+\end{figure}
+\begin{figure}[H]
+	\hspace{-3cm}
+	%\centering
+	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u9_v1_paperrec_poly_tristan}	
+	\caption{Polynomial  rec. from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
+	\label{fig_all_in_one_paperrec_poly_tristan_u9_v1}
 \end{figure}
 
 
@@ -1071,7 +1172,13 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\label{fig_all_in_one_paperrec_poly_u10_v1}
 \end{figure}
 
-
+\begin{figure}[H]
+	\hspace{-3cm}
+	%\centering
+	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u10_v0_paperrec_poly_tristan}	
+	\caption{Polynomial  rec. from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
+	\label{fig_all_in_one_paperrec_poly_tristan_u10_v0}
+\end{figure}
 
 
 
