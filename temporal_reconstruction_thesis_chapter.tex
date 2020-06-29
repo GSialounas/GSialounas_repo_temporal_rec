@@ -351,58 +351,57 @@ The reconstructions for $\rec{U}$ and $\rec{V}$ in \cite[\S3.1]{georgoulis2016po
 \end{aligned}
 \end{equation}
 \end{Defn}
+\begin{Rem}
+	Note that differentiating (\ref{eq_rec_paper}) in time yields
+	\begin{equation}\label{eq_model_recs}
+	\begin{aligned}
+	\rec{U}'-V_1&=\rho_V,\\
+	\rec{V}'+U_1&=\rho_U,
+	\end{aligned}
+	\end{equation}
+\end{Rem}
 
 \begin{Defn}[Polynomial version of the reconstruction from \cite{georgoulis2016posteriori}]\label{defn_rec_paper_poly}
 	The polynomial version of the reconstructions in Defn. \ref{defn_rec_paper} are given by 
-	\begin{equation}\label{eq_rec_paper_poly}
-	\begin{aligned}
-	\hat{U}|_{\qb{t^n, t^{n+1}}}\qp{t}&=c_{0,u}+c_{1,u}\qp{t-t^n}+c_{2,u}\qp{t-t^n}^2\quad \text{and}\\
-	\hat{V}|_{\qb{t^{n-1/2}, t^{n+1/2}}}\qp{t}&=c_{0,v}+c_{1,v}\qp{t-t^{n-1/2}}+c_{2,v}\qp{t-t^{n-1/2}}^2\quad\text{in }\qb{t_{n-1/2},t_{n+1/2}}.
-	\end{aligned}
-	\end{equation}
-	where
-	\begin{equation}
-\begin{aligned}
-c_{0,u} &= U^n,\\
-c_{1,u}&= (V^n+\rho_V),\\
-c_{2,u}&=\frac{1}{2\Delta t}\qp{V^{n+1}-V^n},\\
-c_{0,v} &= V^{n-1/2},\\
-c_{1,v}&= (-U^{n-1/2}+\rho_U),\\
-c_{2,v}&=\frac{1}{2\Delta t}\qp{U^{n+1/2}-U^{n-1/2}},\\
-\end{aligned}
-	\end{equation}
-\end{Defn}
-
-\begin{Defn}[AlternativePolynomial version of the reconstruction from \cite{georgoulis2016posteriori}]\label{defn_rec_paper_poly+tristan}
-	The polynomial version of the reconstructions in Defn. \ref{defn_rec_paper} are given by 
 	\begin{equation}\label{eq_rec_paper_poly_alternative}
 	\begin{aligned}
-	\hat{U}|_{\qb{t^n{n-1} t^{n}}}\qp{t}&=c_{0,u}+c_{1,u}\qp{t-t^{n-1}}+c_{2,u}\qp{t-t^{n-1}}^2\quad \text{and}\\
-	\hat{V}|_{\qb{t^{n-1/2}, t^{n+1/2}}}\qp{t}&=c_{0,v}+c_{1,v}\qp{t-t^{n-1/2}}+c_{2,v}\qp{t-t^{n-1/2}}^2\quad\text{in }\qb{t_{n-1/2},t_{n+1/2}}.
+	\hat{U}|_{\qb{t^{n} t^{n+1}}}\qp{t}&=c_{0,u}+c_{1,u}\qp{t-t^{n}}+c_{2,u}\qp{t-t^{n}}^2\quad \text{and}\\
+	\hat{V}|_{\qb{t^{n-1/2}, t^{n+1/2}}}\qp{t}&=c_{0,v}+c_{1,v}\qp{t-t^{n-1/2}}+c_{2,v}\qp{t-t^{n-1/2}}^2.
 	\end{aligned}
 	\end{equation}
-	where
+	The coefficients are obtained using the following conditions:
+	\begin{equation}
+\begin{aligned}
+&\rec{U}|_{\qb{t^n,t^{n+1}}}\qp{t^i}=U^i \quad \text{for}\quad i= n, n+1,\\
+&\rec{U}'|_{\qpb{t^n,t^{n+1}}}\qp{t^{n+1}}=V_1\qp{t^{n+1}}+\rho_V\\
+&\rec{V}|_{\qb{t^{n-1/2},t^{n+1/2}}}\qp{t^i}=V^i \quad \text{for}\quad i= n-1/2, n+1/2,\\
+&\rec{V}'|_{\qpb{t^{i-1/2},t^{i+1/2}}}\qp{t^{n+1/2}}=-U_1\qp{t^{n+1/2}}+\rho_U,
+\end{aligned}
+	\end{equation}
+	and they lead to the coefficients given below
 	\begin{equation}
 	\begin{aligned}
 	c_{0,u} &= U^{n},\\
-	c_{1,u}&= (V^{n-1}+\rho_V)=-\frac{1}{4}V^{n+1/2}+V^{n-1/2}+\frac{1}{4}V^{n-3/2},\\
-	c_{2,u}&=\frac{1}{4\Delta t}\qp{V^{n+1/2}-V^n-2/},\\
+	c_{1,u}&=-\frac{1}{4}V^{n+3/2}+V^{n+1/2}+\frac{1}{4}V^{n-1/2},\\
+	c_{2,u}&=\frac{1}{4\Delta t}\qp{V^{n+3/2}-V^{n-1/2}},\\
 	c_{0,v} &= V^{n-1/2},\\
 	c_{1,v}&= \frac{1}{4}U^{n+1}-U^n-\frac{1}{4}U^{n-1}\\
 	c_{2,v}&=\frac{1}{4\Delta t}\qp{U^{n+1}-U^{n-1}},\\
 	\end{aligned}
 	\end{equation}
 \end{Defn}
-\begin{Rem}
-Note that differentiating (\ref{eq_rec_paper}) in time yields
-\begin{equation}\label{eq_model_recs}
-\begin{aligned}
-\rec{U}'-V_1&=\rho_V,\\
-\rec{V}'+U_1&=\rho_U,
-\end{aligned}
-\end{equation}
-\end{Rem}
 
+\begin{Defn}[ ]\label{defn_our_rec3}
+	The reconstruction, $\qp{\rec{U},\rec{V}}$ of the numerical solution $\qp{U,V}$ of (\ref{eq_harmonic_discretization}) ona staggered grid consists of the unique functions $\rec{U}\in \mathbb{V}_2$, $\rec{V}\in\mathbb{V}_3$ satisfying
+	\begin{equation}\label{eq_rec3_conds}
+	\begin{aligned}
+	&\rec{U}|_{\qb{t^n,t^{n+1}}}\qp{t^i}=U^i \quad \text{for}\quad i= n, n+1,\\
+	&\rec{U}''|_{\qb{t^n,t^{n+1}}}\qp{t^n}=-U^n,\\
+	&\rec{V}|_{\qb{t^{n-1/2},t^{n+1/2}}}\qp{t^i}=V^i \quad \text{for}\quad i= n-1/2, n+1/2,\\
+	&\rec{V}'|_{\qb{t^{i-1/2},t^{i+1/2}}}\qp{t^i}=-\rec{U}|_{\qb{t^i,t^{i+1}}}\qp{t^i},\quad i = n, \, n+1\\
+	\end{aligned}
+	\end{equation}
+\end{Defn}
 
  In order to present our reconstructions we  define the space in which they belong. 
   \begin{Defn}[Space of piecewise polynomials]\label{defn_space_pwpoly}
@@ -436,17 +435,7 @@ Note that differentiating (\ref{eq_rec_paper}) in time yields
 	\end{aligned}
 	\end{equation}
 \end{Defn}
-\begin{Defn}[ ]\label{defn_our_rec3}
-	The reconstruction, $\qp{\rec{U},\rec{V}}$ of the numerical solution $\qp{U,V}$ of (\ref{eq_harmonic_discretization}) consists of the unique functions $\rec{U}\in \mathbb{V}_2$, $\rec{V}\in\mathbb{V}_3$ satisfying
-	\begin{equation}\label{eq_rec3_conds}
-	\begin{aligned}
-	&\rec{U}|_{\qb{t^n,t^{n+1}}}\qp{t^i}=U^i \quad \text{for}\quad i= n, n+1,\\
-	&\rec{U}''|_{\qb{t^n,t^{n+1}}}\qp{t^n}=-U^n,\\
-	&\rec{V}|_{\qb{t^{n-1/2},t^{n+1/2}}}\qp{t^i}=V^i \quad \text{for}\quad i= n-1/2, n+1/2,\\
-	&\rec{V}'|_{\qb{t^{i-1/2},t^{i+1/2}}}\qp{t^i}=-\rec{U}|_{\qb{t^i,t^{i+1}}}\qp{t^i},\quad i = n, \, n+1\\
-	\end{aligned}
-	\end{equation}
-\end{Defn}
+
 \begin{Rem}[Conditions for $\hat{\textbf{V}}$ from Defn. \ref{defn_our_rec2}]
 	The nodal equivalence conditions for $\rec{V}$ in (\ref{eq_rec2_conds}) fixes two of the four coefficients required to define a third order polynomial in the interval $\qb{t^{n-1}, t^n}$.  The remaining two coefficients will be obtained by the relation we want between $\rec{V}$ and $\rec{U}$, as shown in Example \ref{example:sample_rec}.  
 \end{Rem}
