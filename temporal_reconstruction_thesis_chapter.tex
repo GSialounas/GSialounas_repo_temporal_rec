@@ -373,32 +373,54 @@ The reconstructions for $\rec{U}$ and $\rec{V}$ in \cite[\S3.1]{georgoulis2016po
 	\begin{equation}
 \begin{aligned}
 &\rec{U}|_{\qb{t^n,t^{n+1}}}\qp{t^i}=U^i \quad \text{for}\quad i= n, n+1,\\
-&\rec{U}'|_{\qpb{t^n,t^{n+1}}}\qp{t^{n+1}}=V_1\qp{t^{n+1}}+\rho_V\\
+&\rec{U}'|_{\qpb{t^n,t^{n+1}}}\qp{t^{n+1}}=-\frac{1}{4}V^{n-1/2}+V^{n+1/2}+\frac{1}{4}V^{n+3/2}\\%-\frac{1}{2}\qp{U^{n+1}+U^n}\\
 &\rec{V}|_{\qb{t^{n-1/2},t^{n+1/2}}}\qp{t^i}=V^i \quad \text{for}\quad i= n-1/2, n+1/2,\\
-&\rec{V}'|_{\qpb{t^{i-1/2},t^{i+1/2}}}\qp{t^{n+1/2}}=-U_1\qp{t^{n+1/2}}+\rho_U,
+&\rec{V}'|_{\qpb{t^{i-1/2},t^{i+1/2}}}\qp{t^{n+1/2}}=-\frac{1}{4}U^{n+1}-U^n+\frac{1}{4}U^{n-1}
 \end{aligned}
 	\end{equation}
-	and they lead to the coefficients given below
+	or alternatively these conditions
+	\begin{equation}
+	\begin{aligned}
+	&\rec{U}|_{\qb{t^n,t^{n+1}}}\qp{t^i}=U^i \quad \text{for}\quad i= n, n+1,\\
+	&\rec{U}''|_{\qp{t^n,t^{n+1}}}\qp{t}=\frac{1}{2\Delta t}\qp{V^{n+3/2}-V^{n-1/2}}=-\frac{1}{2}\qp{U^{n+1}+U^n}\\%=-\frac{1}{2}\qp{U^{n+1}+U^n}\\
+	&\rec{V}|_{\qb{t^{n-1/2},t^{n+1/2}}}\qp{t^i}=V^i \quad \text{for}\quad i= n-1/2, n+1/2,\\
+	&\rec{V}'|_{\qpb{t^{i-1/2},t^{i+1/2}}}\qp{t^{n+1/2}}=-\frac{1}{4}U^{n+1}-U^n+\frac{1}{4}U^{n-1}.
+	\end{aligned}
+	\end{equation}
+	
+	Both sets of conditions lead to the coefficients given below
 	\begin{equation}
 	\begin{aligned}
 	c_{0,u} &= U^{n},\\
 	c_{1,u}&=-\frac{1}{4}V^{n+3/2}+V^{n+1/2}+\frac{1}{4}V^{n-1/2},\\
-	c_{2,u}&=\frac{1}{4\Delta t}\qp{V^{n+3/2}-V^{n-1/2}},\\
+	c_{2,u}&=\frac{1}{4\Delta t}\qp{V^{n+3/2}-V^{n-1/2}}\\%\frac{1}{4\Delta t}\qp{V^{n+3/2}-V^{n-1/2}},\\
 	c_{0,v} &= V^{n-1/2},\\
 	c_{1,v}&= \frac{1}{4}U^{n+1}-U^n-\frac{1}{4}U^{n-1}\\
-	c_{2,v}&=\frac{1}{4\Delta t}\qp{U^{n+1}-U^{n-1}},\\
+	c_{2,v}&=-\frac{1}{4\Delta t}\qp{U^{n+1}-U^{n-1}}=-\frac{1}{4}\qp{V^{n+1/2}+V^{n-1/2}},\\
 	\end{aligned}
 	\end{equation}
 \end{Defn}
 
 \begin{Defn}[ ]\label{defn_our_rec3}
-	The reconstruction, $\qp{\rec{U},\rec{V}}$ of the numerical solution $\qp{U,V}$ of (\ref{eq_harmonic_discretization}) ona staggered grid consists of the unique functions $\rec{U}\in \mathbb{V}_2$, $\rec{V}\in\mathbb{V}_3$ satisfying
+	The reconstruction, $\qp{\rec{U},\rec{V}}$ of the numerical solution $\qp{U,V}$ of (\ref{eq_harmonic_discretization}) on a staggered grid consists of the unique functions $\rec{U}\in \mathbb{V}_2$, $\rec{V}\in\mathbb{V}_3$ satisfying
 	\begin{equation}\label{eq_rec3_conds}
 	\begin{aligned}
-	&\rec{U}|_{\qb{t^n,t^{n+1}}}\qp{t^i}=U^i \quad \text{for}\quad i= n, n+1,\\
-	&\rec{U}''|_{\qb{t^n,t^{n+1}}}\qp{t^n}=-U^n,\\
-	&\rec{V}|_{\qb{t^{n-1/2},t^{n+1/2}}}\qp{t^i}=V^i \quad \text{for}\quad i= n-1/2, n+1/2,\\
-	&\rec{V}'|_{\qb{t^{i-1/2},t^{i+1/2}}}\qp{t^i}=-\rec{U}|_{\qb{t^i,t^{i+1}}}\qp{t^i},\quad i = n, \, n+1\\
+	&\rec{U}\qp{t^i}=U^i \quad \text{for}\quad i= n, n+1,\\
+	&\rec{U}''|_{\qp{t^n,t^{n+1}}}\qp{t}=-U^n,\quad\forall t\in\qp{t^n, t^{n+1}}\\
+	&\rec{V}\qp{t^i}=V^i \quad \text{for}\quad i= n-1/2, n+1/2,\\
+	&\rec{V}'\qp{t^i}=-\rec{U}\qp{t^i},\quad i = n-1/2, \, n+1/2\\
+	\end{aligned}
+	\end{equation}
+	This set of conditions leads to the coefficients given below
+	\begin{equation}
+	\begin{aligned}
+	c_{0,u} &= U^{n},\\
+	c_{1,u}&=\frac{1}{\Delta t}\qp{U^{n+1}-U^n+\frac{1}{2}\Delta t^2 U^n}\\
+	c_{2,u}&=-\frac{U^n}{2}\\%\frac{1}{4\Delta t}\qp{V^{n+3/2}-V^{n-1/2}},\\
+	c_{0,v} &= V^{n-1/2},\\
+	c_{1,v}&=-\rec{U}\qp{t^{n-1/2}}\\
+	c_{2,v}&=\frac{1}{\Delta t}\qp{\rec{U}\qp{t^{n+1/2}}-\rec{U}\qp{t^{n-1/2}}}+\frac{3}{\Delta t^2}\qp{V^{n+1/2}-V^{n-1/2}+\Delta t \rec{U}\qp{t^{n-1/2}}}\\
+	c_{3,v}&=-\frac{1}{\Delta t^2}\qp{\rec{U}\qp{t^{n+1/2}}}-\frac{2}{\Delta t^3}\qp{V^{n+1/2}-V^{n-1/2}+\Delta t \rec{U}\qp{t^{n-1/2}}} 
 	\end{aligned}
 	\end{equation}
 \end{Defn}
