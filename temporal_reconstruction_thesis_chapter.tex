@@ -401,6 +401,15 @@ The reconstructions for $\rec{U}$ and $\rec{V}$ in \cite[\S3.1]{georgoulis2016po
 	\end{equation}
 \end{Defn}
 
+In order to present our reconstructions we  define the space in which they belong. 
+\begin{Defn}[Space of piecewise polynomials]\label{defn_space_pwpoly}
+	Let $\polygs{q}{\qb{t^{n-1},t^n}}{\mathbb{R}}$ denote the space of real-valued polynomials of degree $q$ in the interval $\qb{t^{n-1}, t^n}$.  Then, we define 
+	\begin{equation}
+	\mathbb{V}_q:=\bracegs{w:\qb{0,T}\rightarrow\mathbb{R}: w|_{\qb{t^{n-1},t^n}}\in \polygs{q}{\qb{t^{n-1},t^n}}{\mathbb{R}}}
+	\end{equation}
+	to be the space of piecewise polynomials of degree $q$.
+\end{Defn}
+
 \begin{Defn}[ ]\label{defn_our_rec3}
 	The reconstruction, $\qp{\rec{U},\rec{V}}$ of the numerical solution $\qp{U,V}$ of (\ref{eq_harmonic_discretization}) on a staggered grid consists of the unique functions $\rec{U}\in \mathbb{V}_2$, $\rec{V}\in\mathbb{V}_3$ satisfying
 	\begin{equation}\label{eq_rec3_conds}
@@ -420,19 +429,11 @@ The reconstructions for $\rec{U}$ and $\rec{V}$ in \cite[\S3.1]{georgoulis2016po
 	c_{0,v} &= V^{n-1/2},\\
 	c_{1,v}&=-\rec{U}\qp{t^{n-1/2}}\\
 	c_{2,v}&=\frac{1}{\Delta t}\qp{\rec{U}\qp{t^{n+1/2}}-\rec{U}\qp{t^{n-1/2}}}+\frac{3}{\Delta t^2}\qp{V^{n+1/2}-V^{n-1/2}+\Delta t \rec{U}\qp{t^{n-1/2}}}\\
-	c_{3,v}&=-\frac{1}{\Delta t^2}\qp{\rec{U}\qp{t^{n+1/2}}}-\frac{2}{\Delta t^3}\qp{V^{n+1/2}-V^{n-1/2}+\Delta t \rec{U}\qp{t^{n-1/2}}} 
+	c_{3,v}&=-\frac{1}{\Delta t^2}\qp{\rec{U}\qp{t^{n+1/2}}-\rec{U}\qp{t^{n-1/2}}}-\frac{2}{\Delta t^3}\qp{V^{n+1/2}-V^{n-1/2}+\Delta t \rec{U}\qp{t^{n-1/2}}} 
 	\end{aligned}
 	\end{equation}
 \end{Defn}
 
- In order to present our reconstructions we  define the space in which they belong. 
-  \begin{Defn}[Space of piecewise polynomials]\label{defn_space_pwpoly}
- 	Let $\polygs{q}{\qb{t^{n-1},t^n}}{\mathbb{R}}$ denote the space of real-valued polynomials of degree $q$ in the interval $\qb{t^{n-1}, t^n}$.  Then, we define 
- 	\begin{equation}
- 	\mathbb{V}_q:=\bracegs{w:\qb{0,T}\rightarrow\mathbb{R}: w|_{\qb{t^{n-1},t^n}}\in \polygs{q}{\qb{t^{n-1},t^n}}{\mathbb{R}}}
- 	\end{equation}
- 	to be the space of piecewise polynomials of degree $q$.
- \end{Defn}
  
 \begin{Defn}[ ]\label{defn_our_rec}
 	The reconstruction, $\qp{\rec{U},\rec{V}}$ of the numerical solution $\qp{U,V}$ of (\ref{eq_harmonic_discretization}) consists of the unique functions $\rec{U}\in \mathbb{V}_2$, $\rec{V}\in\mathbb{V}_2$ satisfying
@@ -769,6 +770,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 */
 \subsection{Test results}\label{sec:num_exp}
 \subsection*{$u_0=0, v_0= 1$}
+\/*
 \begin{figure}[H]
 	\hspace{-3cm}
 	%\centering
@@ -792,11 +794,11 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\caption{Paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_u0_v10}
 \end{figure}
-
+*/
 \begin{figure}[H]
 	\hspace{-3cm}
 	%\centering
-	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u0_v10_paperrec_poly}	
+	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u0_v10_paperrec_poly_our_res}	
 	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_u0_v10}
 \end{figure}
@@ -809,7 +811,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\label{fig_all_in_one_paperrec_poly_tristan_u0_v10}
 \end{figure}
 \subsection*{$u_0=0.1, v_0= 0.9$}
-
+\/*
 \begin{figure}[H]
 	\hspace{-3cm}
 	%\centering
@@ -832,11 +834,12 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\caption{Paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},  EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_u01_v09}
 \end{figure}
+*/
 
 \begin{figure}[H]
 	\hspace{-3cm}
 	%\centering
-	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u1_v9_paperrec_poly}	
+	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u1_v9_paperrec_poly_our_res}	
 	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},  EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_u01_v09}
 \end{figure}
@@ -850,6 +853,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 
 
 \subsection*{$u_0=0.2, v_0= 0.8$}
+\/*
 \begin{figure}[H]
 	\hspace{-3cm}
 	%\centering
@@ -872,10 +876,11 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\caption{Paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},   EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_u02_v08}
 \end{figure}
+*/
 \begin{figure}[H]
 	\hspace{-3cm}
 	%\centering
-	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u2_v8_paperrec_poly}	
+	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u2_v8_paperrec_poly_our_res}	
 	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},   EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_u02_v08}
 \end{figure}
@@ -889,6 +894,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 \end{figure}
 
 \subsection*{$u_0=0.3, v_0= 0.7$}
+\/*
 \begin{figure}[H]
 	\hspace{-3cm}
 	%\centering
@@ -910,10 +916,11 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\caption{Paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_u03_v07}
 \end{figure}
+*/
 \begin{figure}[H]
 	\hspace{-3cm}
 	%\centering
-	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u3_v7_paperrec_poly}	
+	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u3_v7_paperrec_poly_our_res}	
 	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},   EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_polynomial_u03_v07}
 \end{figure}
@@ -927,6 +934,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 \end{figure}
 
 \subsection*{$u_0=0.4, v_0= 0.6$}
+\/*
 \begin{figure}[H]
 	\hspace{-3cm}
 	%\centering
@@ -948,10 +956,11 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\caption{Paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},  EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_u04_v06}
 \end{figure}
+*/
 \begin{figure}[H]
 	\hspace{-3cm}
 	%\centering
-	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u4_v6_paperrec_poly}	
+	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u4_v6_paperrec_poly_our_res}	
 	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},  EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_u04_v06}
 \end{figure}
@@ -965,6 +974,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 \end{figure}
 
 \subsection*{$u_0=0.5, v_0= 0.5$}
+\/*
 \begin{figure}[H]
 	\hspace{-3cm}
 	%\centering
@@ -986,10 +996,11 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\caption{Paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},   EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_u05_v05}
 \end{figure}
+*/
 \begin{figure}[H]
 	\hspace{-3cm}
 	%\centering
-	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u5_v5_paperrec_poly}	
+	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u5_v5_paperrec_poly_our_res}	
 	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},   EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_u05_v05}
 \end{figure}
@@ -1002,6 +1013,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 \end{figure}
 
 \subsection*{$u_0=0.6, v_0= 0.4$}
+\/*
 \begin{figure}[H]
 	\hspace{-3cm}
 	%\centering
@@ -1023,10 +1035,11 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\caption{Paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},  EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_u06_v04}
 \end{figure}
+*/
 \begin{figure}[H]
 	\hspace{-3cm}
 	%\centering
-	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u6_v4_paperrec_poly}	
+	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u6_v4_paperrec_poly_our_res}	
 	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},  EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_u06_v04}
 \end{figure}
@@ -1040,6 +1053,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 \end{figure}
 
 \subsection*{$u_0=0.7, v_0= 0.3$}
+\/*
 \begin{figure}[H]
 	\hspace{-3cm}
 	%\centering
@@ -1061,10 +1075,11 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\caption{Paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},   EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_u07_v03}
 \end{figure}
+*/
 \begin{figure}[H]
 	\hspace{-3cm}
 	%\centering
-	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u7_v3_paperrec_poly}	
+	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u7_v3_paperrec_poly_our_res}	
 	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},   EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_u07_v03}
 \end{figure}
@@ -1078,6 +1093,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 \end{figure}
 
 \subsection*{$u_0=0.8, v_0= 0.2$}
+\/*
 \begin{figure}[H]
 	\hspace{-3cm}
 	%\centering
@@ -1099,10 +1115,11 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\caption{Paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},   EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_u08_v02}
 \end{figure}
+*/
 \begin{figure}[H]
 	\hspace{-3cm}
 	%\centering
-	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u8_v2_paperrec_poly}	
+	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u8_v2_paperrec_poly_our_res}	
 	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},   EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_u08_v02}
 \end{figure}
@@ -1116,6 +1133,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 
 
 \subsection*{$u_0=0.9, v_0= 0.1$}
+\/*
 \begin{figure}[H]
 	\hspace{-3cm}
 	%\centering
@@ -1137,10 +1155,11 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\caption{Paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},   EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_u09_v01}
 \end{figure}
+*/
 \begin{figure}[H]
 	\hspace{-3cm}
 	%\centering
-	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u9_v1_paperrec_poly}	
+	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u9_v1_paperrec_poly_our_res}	
 	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},   EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_u09_v01}
 \end{figure}
@@ -1154,6 +1173,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 
 
 \subsection*{$u_0=1.0, v_0= 0$}
+\/*
 \begin{figure}[H]
 	\hspace{-3cm}
 	%\centering
@@ -1175,10 +1195,11 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\caption{Paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_u10_v1}
 \end{figure}
+*/
 \begin{figure}[H]
 	\hspace{-3cm}
 	%\centering
-	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u10_v0_paperrec_poly}	
+	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u10_v0_paperrec_poly_our_res}	
 	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_u10_v1}
 \end{figure}
