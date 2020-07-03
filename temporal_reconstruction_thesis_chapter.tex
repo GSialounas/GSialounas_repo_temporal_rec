@@ -360,9 +360,16 @@ The reconstructions for $\rec{U}$ and $\rec{V}$ in \cite[\S3.1]{georgoulis2016po
 	\end{aligned}
 	\end{equation}
 \end{Rem}
-
+We will now present polynomial reconstructions.  Firstly, we will define the space in which they belong. 
+\begin{Defn}[Space of piecewise polynomials]\label{defn_space_pwpoly}
+	Let $\polygs{q}{\qb{t^{n-1},t^n}}{\mathbb{R}}$ denote the space of real-valued polynomials of degree $q$ in the interval $\qb{t^{n-1}, t^n}$.  Then, we define 
+	\begin{equation}
+	\mathbb{V}_q:=\bracegs{w:\qb{0,T}\rightarrow\mathbb{R}: w|_{\qb{t^{n-1},t^n}}\in \polygs{q}{\qb{t^{n-1},t^n}}{\mathbb{R}}}
+	\end{equation}
+	to be the space of piecewise polynomials of degree $q$.
+\end{Defn}
 \begin{Defn}[Polynomial version of the reconstruction from \cite{georgoulis2016posteriori}]\label{defn_rec_paper_poly}
-	The polynomial version of the reconstructions in Defn. \ref{defn_rec_paper} are given by 
+	The polynomial versions of the reconstructions in Defn. \ref{defn_rec_paper} are given by the functions $\rec{U}\in \mathbb{V}_2$: $\rec{V}\in\mathbb{V}_2$ 
 	\begin{equation}\label{eq_rec_paper_poly_alternative}
 	\begin{aligned}
 	\hat{U}|_{\qb{t^{n} t^{n+1}}}\qp{t}&=c_{0,u}+c_{1,u}\qp{t-t^{n}}+c_{2,u}\qp{t-t^{n}}^2\quad \text{and}\\
@@ -379,7 +386,7 @@ The reconstructions for $\rec{U}$ and $\rec{V}$ in \cite[\S3.1]{georgoulis2016po
 \end{aligned}
 	\end{equation}
 	or alternatively these conditions
-	\begin{equation}
+	\begin{equation}\label{eq_alt_conds_paperrec}
 	\begin{aligned}
 	&\rec{U}|_{\qb{t^n,t^{n+1}}}\qp{t^i}=U^i \quad \text{for}\quad i= n, n+1,\\
 	&\rec{U}''|_{\qp{t^n,t^{n+1}}}\qp{t}=\frac{1}{2\Delta t}\qp{V^{n+3/2}-V^{n-1/2}}=-\frac{1}{2}\qp{U^{n+1}+U^n}\\%=-\frac{1}{2}\qp{U^{n+1}+U^n}\\
@@ -400,15 +407,10 @@ The reconstructions for $\rec{U}$ and $\rec{V}$ in \cite[\S3.1]{georgoulis2016po
 	\end{aligned}
 	\end{equation}
 \end{Defn}
+\begin{Rem}[Alternative set of conditions for (\ref{eq_rec_paper_poly_alternative})]
+The reason for presenting an additional set of conditions, (\ref{eq_alt_conds_paperrec}), for (\ref{eq_rec_paper_poly_alternative}) is to facilitate a more direct comparison between this reconstruction and (\ref{eq_rec3_conds}), where $\rec{U}$ is obtained by using a condition on the second derivative.
+\end{Rem}
 
-In order to present our reconstructions we  define the space in which they belong. 
-\begin{Defn}[Space of piecewise polynomials]\label{defn_space_pwpoly}
-	Let $\polygs{q}{\qb{t^{n-1},t^n}}{\mathbb{R}}$ denote the space of real-valued polynomials of degree $q$ in the interval $\qb{t^{n-1}, t^n}$.  Then, we define 
-	\begin{equation}
-	\mathbb{V}_q:=\bracegs{w:\qb{0,T}\rightarrow\mathbb{R}: w|_{\qb{t^{n-1},t^n}}\in \polygs{q}{\qb{t^{n-1},t^n}}{\mathbb{R}}}
-	\end{equation}
-	to be the space of piecewise polynomials of degree $q$.
-\end{Defn}
 
 \begin{Defn}[ ]\label{defn_our_rec3}
 	The reconstruction, $\qp{\rec{U},\rec{V}}$ of the numerical solution $\qp{U,V}$ of (\ref{eq_harmonic_discretization}) on a staggered grid consists of the unique functions $\rec{U}\in \mathbb{V}_2$, $\rec{V}\in\mathbb{V}_3$ satisfying
@@ -434,7 +436,7 @@ In order to present our reconstructions we  define the space in which they belon
 	\end{equation}
 \end{Defn}
 
- 
+ \/*
 \begin{Defn}[ ]\label{defn_our_rec}
 	The reconstruction, $\qp{\rec{U},\rec{V}}$ of the numerical solution $\qp{U,V}$ of (\ref{eq_harmonic_discretization}) consists of the unique functions $\rec{U}\in \mathbb{V}_2$, $\rec{V}\in\mathbb{V}_2$ satisfying
 	\begin{equation}
@@ -484,6 +486,7 @@ c_{3,v} &= \frac{1}{2}\qp{V^{n+1/2}+V^{n+3/2} }-c_{0,v}- c_{1,v}\Delta t- c_{2,v
 \begin{Rem}[Conditions for $\hat{\textbf{V}}$ from Defn. \ref{defn_our_rec2}]
 Two of the coefficients for $\rec{V}$ in Defn. \ref{defn_our_rec2} come from nodal equivalence.  We define the remaining two coefficients  by imposing, in an approximate sense, the relation between $\rec{V}$ and $\rec{U}'$ that is indicated by the second equation in (\ref{eq_harmonic_perturbed}).  This is an effort to make the bound sharper. The reason we stop here rather than opting for a minimization approach is to keep the framework as general as possible rather than optimizing it for a specific problem.
 \end{Rem}
+*/
 \subsection{Error equation and estimators}\label{subsec_error_estimators}
 \begin{Defn}[Errors]\label{defn:errors}
 We define the following error equations for $u$ and $v$ as
@@ -519,14 +522,19 @@ Notice that the PDE system satisfied by the error equations (\ref{eq_err_rec_uv}
 \mathcal{R}_2&:=\hat{V}-V_1-\rho_V,
 \end{aligned}
 \end{equation}
-whereas for the reconstruction in Defn. \ref{defn_our_rec}, these are given by
+whereas for the reconstruction in Defn. \ref{defn_our_rec3}, these are given by
 \begin{equation}\label{eq_residuals_our}
 \begin{aligned}
 \mathcal{R}_1&:=\hat{V}'+\hat{U}\\
 \mathcal{R}_2&:=\hat{U}'-\hat{V}.
 \end{aligned}
 \end{equation}
-The reconstruction residuals are used in the computation of the bound in \cite[Thm 3.1]{georgoulis2016posteriori}. In order to present this result we will first introuce some notation.
+The reconstruction residuals are used in the computation of the bound in \cite[Thm 3.1]{georgoulis2016posteriori}, which we present in Thm. \ref{thm:bound}.
+\begin{Rem}[Set of residuals used in testing]
+	In order to establish a clear comparison for the performance of the reconstructions, we will be using the residulas given by (\ref{eq_residuals_our}) for both of the reconstructions we will test.
+\end{Rem}
+
+
 
 Let $\Phi=\qp{\phi_1, \phi_2}$, $\Psi =\qp{\psi_1,\psi_2}\in D\qp{\mathcal{A}}\times H$ where $D\qp{\mathcal{A}}$ and $H$ are defined in \S \ref{sec:setup}.  The inner product used in the computation is the standard energy inner product on $\qb{D\qp{\mathcal{A}}\times H}^2$
 \begin{equation}\label{defn_innerprod}
@@ -552,7 +560,7 @@ This leads us to the main result from \cite[Thm 3.1]{georgoulis2016posteriori}. 
 	0\leq \qp{\sqrt{\epsilon}a-\frac{1}{2\sqrt{\epsilon}b}}^2\implies ab\leq \epsilon a^2 +\frac{1}{4\epsilon}b^2
 	\end{equation*}
 \end{proof}
-\begin{Thm}[A-posteriori error bound for (\ref{eq_model_problem})]
+\begin{Thm}[A-posteriori error bound for (\ref{eq_model_problem})]\label{thm:bound}
 Let $u$ be the solution of (\ref{eq_model_problem}), $\hat{e}_u:=u-\rec{U}$ and $\hat{e}_v:=v-\rec{V}$ .  Then the following a posteriori error estimate holds
 \begin{equation}\label{eq_bound}
 \sup_{t\in\qb{0,t^N}}\pnorm{\qp{\hat{e}_U,\hat{e}_V}\qp{t}}^2\leq
@@ -615,7 +623,7 @@ Using (\ref{eq_cauchy_ineq_eps}) with $\epsilon=1$, $a=\int_0^\tau\pnorm{\qp{\ma
 \end{proof}
 
 \begin{Rem}[The error at $t=0$]
-	Notice the constant $2\pnorm{\qp{\hat{e}_U,\hat{e}_V}\qp{0}}^2$ in (\ref{eq_bound}).  The significance of this is that the initial error, depending on the chosen reconstruction, may not be $0$.  This is the case of the reconstruction by \cite{georgoulis2016posteriori}.
+	Notice the constant $2\pnorm{\qp{\hat{e}_U,\hat{e}_V}\qp{0}}^2$ in (\ref{eq_bound}).  The significance of this is that the initial error, depending on the chosen reconstruction, may not be $0$.  This isbecause of the use of a staggered grid.
 \end{Rem}
 
 Before we proceed we will prove an additional bound.  In order to do this we will use an addional result
@@ -636,7 +644,7 @@ then
 	\pnorm{\qp{\hat{e}_U,\hat{e}_V}\qp{0}}+
 	2{\int_0^{t^N}\pnorm{\qp{\mathcal{R}_2,\mathcal{R}_1}}\mathrm{d}t},
 	\end{equation}
-	where $\mathcal{R}_1$ and $\mathcal{R}_2$ are defined in (\ref{eq_residuals_paper}) or (\ref{eq_residuals_our}).
+	where $\mathcal{R}_1$ and $\mathcal{R}_2$ are defined in (\ref{eq_residuals_our}).
 \end{Lemma}
 \begin{proof}
 We use  Lemma  \ref{lemma:L2_simplification} with $\vect{a}=\frac{1}{\sqrt{2}}\pnorm{\qp{\hat{e}_U, \hat{e}_V}\qp{\tau}}$, $\vect{b}=\sqrt{2}\int_0^\tau\pnorm{\qp{\mathcal{R}_2,\mathcal{R}_1}\qp{t}} \mathrm{d}t$ and $c = \frac{1}{\sqrt{2}}\pnorm{\qp{\hat{e}_U, \hat{e}_V}\qp{0}}$ and we obtain the required result.
@@ -650,7 +658,7 @@ The objectives in this section are to study the performance of the indicator
 \eta_1=\qp{2\pnorm{\qp{\hat{e}_U,\hat{e}_V}\qp{0}}^2+
 	4\qp{\int_0^{t^N}\pnorm{\qp{\mathcal{R}_2,\mathcal{R}_1}}\mathrm{d}t}^2}^{1/2}
 \end{equation}
-for the reconstructions in Defns. (\ref{defn_rec_paper}), (\ref{defn_our_rec}) and (\ref{defn_our_rec2}) and to compare the relative performance of the reconstructions in replicating the behaviour of the error.  To this extend we introduce the error
+for the reconstructions in Defns. (\ref{defn_rec_paper}) and (\ref{defn_our_rec3})  and to compare their performance. To this extend we introduce the error
 \begin{equation}\label{eq_error_eR}
 e_R :=\qp{\hat{e}_U,\hat{e_V}},
 \end{equation}
@@ -1215,14 +1223,16 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 
 
 \section{Discussion}\label{sec:discussion}
-In this section we discuss the findings from the numerical experiments.  Briefly, we tested the aposterior bound (\ref{eq_bound_test}) with three different reconstructions: Defns. \ref{defn_our_rec}, \ref{defn_our_rec2} and the one from \cite{georgoulis2016posteriori}, given in (\ref{eq_rec_paper}).  The error was measured in the $L^{\infty}-$norm in time. 
+In this section we discuss the findings from the numerical experiments.  Briefly, we tested the aposterior bound (\ref{eq_bound_test}) with two different reconstructions: \ref{defn_rec_paper_poly} from \cite{georgoulis2016posteriori} and the reconstruction form Defn. \ref{defn_our_rec3} . The error was measured in the $L^{\infty}-$norm in time. 
 
- We investigated the temporal evolution of the error (\ref{eq_error_eR})  and the bound (\ref{eq_bound_test}) and we compared the performances of the three reconstructions in terms of their EOCs and the Effectivity index.
+ We investigated the temporal evolution of the error (\ref{eq_error_eR})  and the bound (\ref{eq_bound_test}) and we compared the performances of the  reconstructions in terms of their EOCs and the Effectivity index.
 
-Firstly,  all three reconstructions were of optimal order in all numerical experiments in \S \ref{sec:num_exp}. This means that all of them converged with the same order as the underlying error of the numerical scheme.  
-Additionally, all three reconstructions lead to robust a posteriori estimates in the sense that there is no constant in the estimate that goes to infinity  while the true error is finite.
+Firstly,  both reconstructions were of optimal order in all numerical experiments in \S \ref{sec:num_exp}. This means that they both converged with the same order as the underlying error of the numerical scheme.  
+Additionally, the both lead to robust a posteriori estimates, in the sense that there is no constant in the estimate that goes to infinity  while the true error is finite.
 
-The difference between the three reconstructions is in terms of their efficiency.  The reconstruction (\ref{eq_rec_paper}) led to a sharper estimate for the bound (\ref{eq_bound_test}) compared to the reconstructions from Defns. \ref{defn_our_rec} and \ref{defn_our_rec2}.  This can be seen from the Effectivity Index (last subplot on the right) in the figures in \S\ref{sec:num_exp}.
+The difference between them reconstructions is in terms of their efficiency.  The reconstruction in (\ref{eq_rec_paper}) led to a sharper estimate for the bound (\ref{eq_bound_test}) compared to the reconstructions from Defn.  \ref{defn_our_rec3}.  This can be seen from the Effectivity Index (last subplot on the right) in the figures in \S\ref{sec:num_exp}.  
+
+In order to understand why this is, we substitute the exact solution in both (\ref{eq_rec_paper_poly_alternative}) and in the reconstruction in Defn.(\ref{defn_our_rec3}).  In both cases, the lead contributor to the bound  (\ref{eq_bound_test}) is the term $\mathcal{R}_2$ in (\ref{eq_residuals_our}), which is $\mathcal{O}\qp{\Delta t^2}$ in the bound.  However, in the case of (\ref{eq_rec_paper_poly_alternative}) the constant in front of this term is smaller compared to that in Defn. \ref{defn_our_rec3}.  This can be confirmed by visually inspecting the last two plots on the right for any of the Figures in \S \ref{sec:num_exp}, which illustrate the evolution of $\mathcal{R}_1$ and $\mathcal{R}_2$.  
 
 
 \bibliography{apostfd_bibdesk}
