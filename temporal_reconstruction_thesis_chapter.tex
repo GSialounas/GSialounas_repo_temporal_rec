@@ -1234,6 +1234,8 @@ The difference between them reconstructions is in terms of their efficiency.  Th
 
 In order to understand why this is, we substitute the exact solution in both (\ref{eq_rec_paper_poly_alternative}) and in the reconstruction in Defn.(\ref{defn_our_rec3}).  In both cases, the lead contributor to the bound  (\ref{eq_bound_test}) is the term $\mathcal{R}_2$ in (\ref{eq_residuals_our}), which is $\mathcal{O}\qp{\Delta t^2}$ in the bound.  However, in the case of (\ref{eq_rec_paper_poly_alternative}) the constant in front of this term is smaller compared to that in Defn. \ref{defn_our_rec3}.  This can be confirmed by visually inspecting the last two plots on the right for any of the Figures in \S \ref{sec:num_exp}, which illustrate the evolution of $\mathcal{R}_1$ and $\mathcal{R}_2$.  
 
+\section{Conclusion}
+In this chapter we tested the reconstruction of \cite{georgoulis2016posteriori} against one derived using our framework in the context of a model problem given by (\ref{eq_model_problem}), discretized by the leap-frog scheme. We have found that both reconstructions lead to reliable, robust a posteriori estimates.  The difference between them is in terms of efficiency.  The reconstruciton from \cite{georgoulis2016posteriori} leads to a sharper bound compared to that presented in Defn. \ref{defn_our_rec3}, on account of the smaller constant in the leading order error term. 
 
 \bibliography{apostfd_bibdesk}
 \bibliographystyle{ieeetr}
