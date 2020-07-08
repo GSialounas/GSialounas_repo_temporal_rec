@@ -193,17 +193,19 @@
 \tableofcontents
 \section{Introduction}\label{sec_intro}
 
+In recent years there has been interest in a posteriori error estimation for second order hyperbolic problems (see e.g. \cite{bernardi2005time},\cite{georgoulis2013posteriori},\cite{georgoulis2016posteriori}, \cite{gorynina2018elements},\cite{gorynina2019time},\cite{gorynina2019easily}), albeit belatedly compared to similar advances in parabolic and elliptic problems. The works of \cite{georgoulis2016posteriori}, \cite{gorynina2019time} and  \cite{gorynina2019easily} in particular, are concerned with the temporal aspect of the reconstruction approach.  However, finite difference schemes have not received much attention with regard to a posteriori error estimation, despite the fact that they are frequently in practice,  have not garnered much attention with regard to error estimation.
+
+In this chapter we propose a framework for constructing optimal temporal reconstructions based on the leap-frog scheme for second-order wave-type problems with smooth initial conditions.  The framework we present can be used to facilitate  a posteriori error estimation for finite difference schemes.  We compare a reconstruction obtained from this framework with that of \cite{georgoulis2016posteriori}, on the basis of efficiency.   We also note that the approach we propose can be easily extended to provide residual-type aposteriori estimates for fully discrete finite difference schemes for other evolution problems.  
+
+ 
+
+  Although the work in the present chapter uses the same underlying time-marching scheme as \cite{georgoulis2016posteriori}, the reconstruction approach is more similar in spirit to that of  \cite{gorynina2019time} and \cite{gorynina2019easily},  i.e. the fitting of an interpolant in time using the values of the solution at different time-steps.
 
 
-In this chapter we propose a framework for constructing optimal temporal reconstructions based on the leap-frog scheme for second-order wave-type problems with smooth initial conditions.  In addition, we derive an a posteriori bound to test two reconstructions based on this framework.  We compare the performance of two reconstructions generated with this approach, with that of \cite{georgoulis2016posteriori} on the basis of efficiency.  We note that this approach can be easily extended to provide residual-type aposteriori estimates for fully discrete finite difference schemes for evolution problems.  The significance of this is that finite-difference schemes, while frequently used in practice, have not received much attention with regard to a posteriori error estimation.
-
-In recent years there has been interest a posteriori error estimation for second order hyperbolic problems (see e.g. \cite{bernardi2005time},\cite{georgoulis2013posteriori},\cite{georgoulis2016posteriori}, \cite{gorynina2018elements},\cite{gorynina2019time},\cite{gorynina2019easily}), albeit belatedly compared to similar advances in parabolic and elliptic problems. The works of \cite{georgoulis2016posteriori}, \cite{gorynina2019time} and  \cite{gorynina2019easily} in particular, are concerned with the temporal aspect of the reconstruction approach.  Although the work in the present chapter uses the same underlying time-marching scheme as \cite{georgoulis2016posteriori}, the reconstruction approach is more similar in spirit to that of  \cite{gorynina2019easily} and \cite{gorynina2019time}, i.e. the fitting of an interpolant in time using the values of the solution at different time-steps.
-
-
-The rest of the chapter is structured as follows.  In \S \ref{sec:setup} we present the model problem and the leap frog scheme we will use to simulate it.  In \ref{sec_reformulation} we present the reformulation of the leap frog scheme, which is what  \cite{georgoulis2016posteriori} used in order to facilitate the derivation of their bound.  In \S \ref{sec_bounds} we present the reconstructions we will be comparing and the a-posteriori bound which will be the basis of comparison.   In \S \ref{sec:num_exp} we present the numerical experiments we used to test the reconstructions, followed by the relevant test results.  We conclude the chapter in \S \ref{sec:discussion}, where we  discuss the test results.
+The rest of the chapter is structured as follows.  In \S \ref{sec:setup} we present the model problem and the leap frog scheme we will use to simulate it.  In \S\ref{sec_reformulation} we present the reformulation of the leap frog scheme, which is what  \cite{georgoulis2016posteriori} used in order to facilitate the derivation of their a posteriori bound.  In \S \ref{sec_bounds} we present the reconstructions we will be comparing and the a-posteriori bound which will be the basis of comparison.   In \S \ref{sec:num_exp} we present the numerical experiments we used to test the reconstructions, followed by the relevant test results.  We conclude the chapter in \S \ref{sec:discussion}, where we  discuss the test results.
 \section{Setup}\label{sec:setup}
 \subsection{The model problem and notation}\label{subsec_modelprob}
-We let $\qp{H,\langle \cdot,\cdot\rangle}$ be a Hilbert space and we let $\mathcal{A}:\qb{0,T}\rightarrow D\qp{\mathcal{A}}$ where $D\qp{\mathcal{A}}$ is the domain of the operator $\mathcal{A}$.  We consider the linear second order hyperbolic problem: find $u:\qb{0,T}\rightarrow \mathbb{R}$ such that
+We let $\qp{H,\langle \cdot,\cdot\rangle}$ be a Hilbert space and we let $\mathcal{A}:\qb{0,T}\rightarrow D\qp{\mathcal{A}}$, where $D\qp{\mathcal{A}}$ is the domain of the operator $\mathcal{A}$.  We consider the linear second order hyperbolic problem: find $u:\qb{0,T}\rightarrow \mathbb{R}$ such that
 \begin{equation}\label{eq_model_problem}
 \begin{aligned}
 u''\qp{t}+\mathcal{A}u\qp{t}&=0\quad\text{for}\quad 0\leq t\leq T,\\
@@ -213,7 +215,7 @@ u'\qp{0}&=v_0.
 \end{equation}
 
 \subsection{Numerical Scheme}\label{subsect_leapfrog}
-In this chapter we will consider  the leap-frog scheme for  (\ref{eq_model_problem}).  This is a second-order explicit scheme for wave-type partial differential equations.  We  subdivide the interval $\qb{0,T}$ into disjoint subintervals $\qpb{t^n, t^{n+1}}$ such that $0=t^0\leq\cdots\leq t^N=T$. The time-step in each subinterval is defined as $\Delta t^n := t^n-t^{n-1},\, n=1,\cdots,N$. 
+In this chapter we will consider  the leap-frog scheme for  (\ref{eq_model_problem}).  This is a second-order, explicit scheme for wave-type partial differential equations.  We  subdivide the interval $\qb{0,T}$ into disjoint subintervals $\qpb{t^n, t^{n+1}}$ such that $0=t^0\leq\cdots\leq t^N=T$. The time-step in each subinterval is defined as $\Delta t^n := t^n-t^{n-1},\, n=1,\cdots,N$. 
 
 In order to keep our exposition clear we will work with a constant time-step  $\Delta t^n = \Delta  t = 1/N ,\, \forall n$, although this is not a requirement for the analysis in this section. 
 In the exposition that follows we will present a time-discrete version of the Leap-frog scheme instead of a full spatio-temporal discretisation.  This is because we are initially only interested in the temporal aspect of the reconstruction.  
@@ -235,13 +237,13 @@ In order to calculate the quantities in the first time-step, we set $U^0=u_0$ an
 \frac{\partial U^1 - v_0}{\Delta t} + \frac{1}{2}\mathcal{A}U^0 =0.
 \end{equation}
 \section{Reformulation of the numerical scheme}\label{sec_reformulation}
-In \cite{georgoulis2016posteriori}, the  leap-frog scheme in \S \ref{subsect_leapfrog} is reformulated as a system of equations on two staggered grids.  This system, which is discrete in time, is then recasted in terms of functions which are continuous in time.  The goal of doing the reformulation and the subsequent re-casting is to help obtain  an a-posteriori bound for the error of (\ref{eq_model_discrete}), which is also the main result \cite{georgoulis2016posteriori}.  We present a summary of the this process from \cite{georgoulis2016posteriori} in  \S \ref{subsec_reform_leapfrog}.
+In \cite{georgoulis2016posteriori}, the  leap-frog scheme, (\ref{eq_model_discrete}), is reformulated as a system of equations two staggered grids.  This system, which is discrete in time, is then recasted in terms of functions which are continuous in time.  The reason for  the reformulation and the subsequent re-casting is to obtain  an a-posteriori bound for the error of (\ref{eq_model_discrete}), which is also the main result from \cite{georgoulis2016posteriori}.  We present a summary of the this process in  \S \ref{subsec_reform_leapfrog}.
 \subsection{Reformulated leap frog}\label{subsec_reform_leapfrog}
 We introduce the variable
 \begin{equation}
 V^{n+1/2}:=\partial U^{n+1} \quad\text{for} \quad n=0,\cdots,N-1,
 \end{equation}
-which will serve as an approximation to $v:= \partial u$. We set 
+which will serve as an approximation to $v:=  u'$. We set 
 \begin{equation}
 V^{-1/2}:=2v_0-V^{1/2}
 \end{equation}
@@ -253,8 +255,9 @@ Finally, we define
 \begin{equation}
 \partial V^{n+1/2}:= \frac{V^{n+1/2}-V^{n-1/2}}{\Delta t}, \quad \text{for } \quad n= 0,\cdots, N-1.
 \end{equation}
-We use $U^n$ and $V^{n+1/2}$ to reformulate (\ref{eq_model_discrete}), noting that $U^n$ and $V^{n+1/2}$ are calculated on staggered grids. This gives as the staggered midpoint method for our problem (see Defn. \ref{defn_staggered_midpoint}).
-\begin{Defn}[Staggered midpoint method for (\ref{eq_model_problem})]\label{defn_staggered_midpoint}
+$U^n$ and $V^{n+1/2}$ are used to reformulate (\ref{eq_model_discrete}) the leap-frog scheme as a system of equations on a staggered grid (see Defn. \ref{defn_staggered_midpoint}).
+\begin{Defn}[Leap-frog on staggered grids]\label{defn_staggered_midpoint}
+	The leap-frog scheme, (\ref{eq_model_discrete}), for (\ref{eq_model_problem}), can be reformulated as a system of equations on a staggered grid as follows
 \begin{equation}\label{eq_harmonic_discretization}
 \begin{aligned}
 \partial U^{n+1} - V^{n+1/2} &= 0,\\
@@ -269,7 +272,7 @@ for $n= 0,\cdots, N-1$.
 \begin{equation}\label{eq_interp_U}
 U:\qb{-\Delta t, T}\rightarrow \mathbb{R},
 \end{equation}
-of the sequence $\bracegs{U^n}_{n=-1}^N$ at $\bracegs{t^n}_{n=-1}^N$, $t^n=n\Delta t$ and $t^{-1} = -\Delta t$.  Next, we define the piecewise linear interpolator
+of the sequence $\bracegs{U^n}_{n=-1}^N$ at $\bracegs{t^n}_{n=-1}^N$, where  $t^n=n\Delta t$ and $t^{-1} = -\Delta t$.  Next, we define the piecewise linear interpolator
 \begin{equation}\label{eq_interp_V}
 V:\qb{-\Delta t /2, t^{N-1/2}}\rightarrow\mathbb{R},
 \end{equation}
@@ -298,7 +301,7 @@ where the right hand sides are formally defined as the piecewise constant residu
 \begin{Rem}[]\label{Rem_opt_perturbation}
 Noting that $\rho_u$ and $\rho_V$ are $\mathcal{O}\qp{\Delta t^2}$,  we can view  (\ref{eq_harm_disc_perturbed}) as a second order perturbation of (\ref{eq_harmonic_discretization}).
 \end{Rem}
-We now introduce two additional interpolants: $U_1$, which is the piecewise linear interpolant of $\bracegs{U^{n+1/2}}_{n=-1}^{N-1}$  at $\bracegs{t^{n+1/2}}_{n=-1}^{N-1}$ and $V_1$, the piecewise linear interpolant of $\bracegs{V^{n}}_{n=0}^{N-1}$ at $\bracegs{t^{n}}_{n=0}^{N-1}$. We use $U_1$ and $V_1$ to re-write (\ref{eq_harm_disc_perturbed}) as
+We now introduce two additional interpolants: $U_1$, which is the piecewise linear interpolant of $\bracegs{U^{n+1/2}}_{n=-1}^{N-1}$  at $\bracegs{t^{n+1/2}}_{n=-1}^{N-1}$, and $V_1$, the piecewise linear interpolant of $\bracegs{V^{n}}_{n=0}^{N-1}$ at $\bracegs{t^{n}}_{n=0}^{N-1}$. We use $U_1$ and $V_1$ to re-write (\ref{eq_harm_disc_perturbed}) as
 \begin{equation}\label{eq_harm_interpolants}
 \begin{aligned}
 U'-I_0V_1&=\rho_V,\\
@@ -307,7 +310,7 @@ V'+ \mathcal{A}\tilde{I}_0U_1&=\rho_U,
 \end{equation}
 where $\tilde{I}_0$ is the piecewise constant midpoint interpolant on $\qpb{t^{n-1/2}, t^{n+1/2}}$ and ${I}_0$ is the piecewise constant midpoint interpolant on $\qpb{t^{n-1}, t^{n+1}}$. 
 \begin{Rem}[Constant residuals $\rho_U$ and $\rho_V$]
-As \cite{georgoulis2016posteriori} state,  it is not required that the  residuals $\rho_u$ and $\rho_V$ be constant: this is just done for simplicity.
+As is stated in \cite{georgoulis2016posteriori},  it is not required that the  residuals $\rho_u$ and $\rho_V$ be constant.  However,  constant residuals are sufficient to obtain an optimal a posteriori bound.
 \end{Rem}
 
  
@@ -322,22 +325,22 @@ v' +u &= 0.\\
 \end{Rem}
 In the next section,  (\ref{eq_harm_interpolants}) will serve as the starting point in obtaining the reconstruction of \cite{georgoulis2016posteriori}.
 \section{Reconstructions and a-posteriori bounds}\label{sec_bounds}
-In this section we explain why we are interested in reconstructions.  We then define the three reconstructions we will test and  present the relevant a-posteriori bound.  The reader should note that the reconstruction and the results we will present in this section are for the case $\mathcal{A}=I$.  This simplification reduces (\ref{eq_model_problem}) to the simple harmonic oscillator.
+In this section we explain why we are interested in reconstructions.  We  also define the  reconstructions we will test and  present the relevant a-posteriori bound, which forms the basis for the comparison.  The reader should note that the reconstruction and the results we will present in this section are for the case $\mathcal{A}=I$.  This simplification reduces (\ref{eq_model_problem}) to the simple harmonic oscillator.
 \begin{Rem}[Remark on a posteriori estimators]\label{rem_apost_estimator}
  A posteriori error control for a given problem involves establishing an estimate of the form 
 \begin{equation}\label{eq_error_estimate}
 \Normgs{u-U}\leq \eta\qp{U},
 \end{equation}
-where $\eta\qp{U}$ is called the\textit{ a-posteriori estimator}.  We would like the estimator to be an explicitly (and preferrably easily) computable quantity.  This necessarily implies that $\eta\qp{U}$ should depend on available and explicitly computable quantities, such as the numerical solution  and given problem data. Additionally, we would like $\eta\qp{U}$ to converge with optimal order; that is, with the same order as the error for the chosen numerical scheme.  Lastly, we would like to do these by requiring $\eta\qp{U}$ to have as little regularity as permitted by the given problem.
+where $\eta\qp{U}$ is called the\textit{ a-posteriori estimator}.  We would like the estimator to be an explicitly (and preferrably easily) computable quantity.  This implies that $\eta\qp{U}$ should depend on available and explicitly computable quantities, such as the numerical solution  and given problem data. Lastly, we would like $\eta\qp{U}$ to converge with optimal order; that is, with the same order as the error for the chosen numerical scheme.  
 \end{Rem}
 
 \begin{Rem}[On reconstructions]
-An alternative approach to establishing a posteriori error control for a given problem is for $\eta\qp{\cdot}$ to depend on an intermediate function $\rec{U}$ instead of $U$.   We call $\rec{U}$ the reconstruction of $U$.  Appropriate reconstructions of numerical solutions may have a number of desirable characteristics, which are summarized in \cite{makridakis2007space}:
+An alternative approach to establishing a posteriori error control for a given problem is for $\eta\qp{\cdot}$ to depend on an intermediate function $\rec{U}$ instead of $U$.   We call $\rec{U}$ the reconstruction of $U$.  Appropriate reconstructions of numerical solutions may have a number of desirable characteristics, which are discussed in detailed in \cite{makridakis2007space}.  In summary:
 \begin{itemize}
-\item $\rec{U}$ can be a continuous object.  For evolution problems in particular, $U$ will not be continuous in time.  This is the case for various numerical methods, such as for finite difference and finite element methods, where the solution is obtained at discrete points in time.
+\item $\rec{U}$ can be a continuous object.  For evolution problems in particular, $U$ may not be continuous in time.  This is the case for various numerical methods, such as for finite difference and finite element methods, where the solution is obtained at discrete points in time.
 \item $U-\rec{U}$ should be computable and optimal or bounded by computable and optimal quantities.
 \item Let $B\qp{u}$ be the differential operator for the given problem.  Then, $B\qp{\rec{U}}$ should be computable and well-defined.
-\item The reconstruction residual $R=B\qp{\rec{U}}$ should be computable or bounded by computable quantities.  Furthermore, it should ideally be an optimal order perturbation of the given problem that is of optimal order (see Remarks \ref{Rem_opt_perturbation} and \ref{Rem_opt_perturbation_cont}).
+\item The reconstruction residual $R=B\qp{\rec{U}}$ should be computable or bounded by computable quantities.  Furthermore, it should ideally be an optimal order perturbation of the given problem (see Remarks \ref{Rem_opt_perturbation} and \ref{Rem_opt_perturbation_cont}).
 \end{itemize}
 \end{Rem}
 
@@ -355,8 +358,8 @@ The reconstructions for $\rec{U}$ and $\rec{V}$ in \cite[\S3.1]{georgoulis2016po
 	Note that differentiating (\ref{eq_rec_paper}) in time yields
 	\begin{equation}\label{eq_model_recs}
 	\begin{aligned}
-	\rec{U}'-V_1&=\rho_V,\\
-	\rec{V}'+U_1&=\rho_U,
+	\rec{U}'-V_1&=\rho_V \quad\text{and}\\
+	\rec{V}'+U_1&=\rho_U.
 	\end{aligned}
 	\end{equation}
 \end{Rem}
@@ -396,7 +399,7 @@ We will now present polynomial reconstructions.  Firstly, we will define the spa
 	\end{equation}
 	
 	Both sets of conditions lead to the coefficients given below
-	\begin{equation}
+	\begin{equation}\label{eq_coeffs_paperrec}
 	\begin{aligned}
 	c_{0,u} &= U^{n},\\
 	c_{1,u}&=-\frac{1}{4}V^{n+3/2}+V^{n+1/2}+\frac{1}{4}V^{n-1/2},\\
@@ -408,7 +411,7 @@ We will now present polynomial reconstructions.  Firstly, we will define the spa
 	\end{equation}
 \end{Defn}
 \begin{Rem}[Alternative set of conditions for (\ref{eq_rec_paper_poly_alternative})]
-The reason for presenting an additional set of conditions, (\ref{eq_alt_conds_paperrec}), for (\ref{eq_rec_paper_poly_alternative}) is to facilitate a more direct comparison between this reconstruction and (\ref{eq_rec3_conds}), where $\rec{U}$ is obtained by using a condition on the second derivative.
+The reason for presenting an additional set of conditions, (\ref{eq_alt_conds_paperrec}) for the polynomials (\ref{eq_rec_paper_poly_alternative}), is to facilitate as direct a comparison as possible between this reconstruction and (\ref{eq_rec3_conds}), where $\rec{U}$ is obtained by using a condition on the second derivative.
 \end{Rem}
 
 
@@ -423,7 +426,7 @@ The reason for presenting an additional set of conditions, (\ref{eq_alt_conds_pa
 	\end{aligned}
 	\end{equation}
 	This set of conditions leads to the coefficients given below
-	\begin{equation}
+	\begin{equation}\label{eq_coeffs_ours}
 	\begin{aligned}
 	c_{0,u} &= U^{n},\\
 	c_{1,u}&=\frac{1}{\Delta t}\qp{U^{n+1}-U^n+\frac{1}{2}\Delta t^2 U^n}\\
@@ -515,6 +518,7 @@ Notice that the PDE system satisfied by the error equations (\ref{eq_err_rec_uv}
 %\begin{equation}\label{eq_error_definitions}
 %e_R:= \qp{\hat{e}_U, \hat{e}_V},\quad e_L:= e_R +\qp{U-\hat{U}, V-\hat{V}}= \qp{u-U, v-V}.
 %\end{equation}
+\/*
  In the case of the reconstruction of \cite{georgoulis2016posteriori}, in light of (\ref{eq_model_recs}) , these residuals are given by
 \begin{equation}\label{eq_residuals_paper}
 \begin{aligned}
@@ -522,16 +526,17 @@ Notice that the PDE system satisfied by the error equations (\ref{eq_err_rec_uv}
 \mathcal{R}_2&:=\hat{V}-V_1-\rho_V,
 \end{aligned}
 \end{equation}
-whereas for the reconstruction in Defn. \ref{defn_our_rec3}, these are given by
+*/
+The forms of $\mathcal{R}_1$ and $\mathcal{R}_2$ are obtained by substituting the reconstructions $\rec{U}$ and $\rec{V}$ for $u$ and $v$ respectively in (\ref{eq_harmonic_perturbed}):
 \begin{equation}\label{eq_residuals_our}
 \begin{aligned}
 \mathcal{R}_1&:=\hat{V}'+\hat{U}\\
 \mathcal{R}_2&:=\hat{U}'-\hat{V}.
 \end{aligned}
 \end{equation}
-The reconstruction residuals are used in the computation of the bound in \cite[Thm 3.1]{georgoulis2016posteriori}, which we present in Thm. \ref{thm:bound}.
+$\mathcal{R}_1$ and $\mathcal{R}_2$ are used in the computation of the bound in \cite[Thm 3.1]{georgoulis2016posteriori}, which we present in Thm. \ref{thm:bound}.
 \begin{Rem}[Set of residuals used in testing]
-	In order to establish a clear comparison for the performance of the reconstructions, we will be using the residulas given by (\ref{eq_residuals_our}) for both of the reconstructions we will test.
+Note that the set of residuals $\mathcal{R}_1$ and $\mathcal{R}_2$ we present in (\ref{eq_residuals_our}) is not the same as the one used in \cite{georgoulis2016posteriori}.  However, in order to establish a clear comparison for the performance of the reconstructions, we will be using the residulas given by (\ref{eq_residuals_our}) for both of the reconstructions we will test.  The reader should note that it has been confirmed by testing that the behaviour of the bound we will test in the following sections is the same for (\ref{eq_residuals_our}) as it is for the original residuals from \cite{georgoulis2016posteriori}.  The relevant results have been omitted for the sake of clarity of exposition.
 \end{Rem}
 
 
@@ -544,7 +549,7 @@ which induces the norm
 \begin{equation}
 \pnorm{\Phi} = \qp{\Normgs{\mathcal{A}^{1/2}\phi_1} + \Normgs{\phi_2}}^{1/2}.
 \end{equation}
-In the case we are interested in, where $\mathcal{A}=I$,  this induces the norm
+In the case we are interested in, where $\mathcal{A}=I$,  this simplifies to
 \begin{equation}
 \left|\left|\left|\left(\mathcal{R}_2, \mathcal{R}_1\right)\right|\right|\right| = (\mathcal{R}_2^2 +\mathcal{R}_1^2)^{1/2}.
 \end{equation}
@@ -567,7 +572,7 @@ Let $u$ be the solution of (\ref{eq_model_problem}), $\hat{e}_u:=u-\rec{U}$ and 
 2\pnorm{\qp{\hat{e}_U,\hat{e}_V}\qp{0}}^2+
 4\qp{\int_0^{t^N}\pnorm{\qp{\mathcal{R}_2,\mathcal{R}_1}}\mathrm{d}t}^2,
 \end{equation}
-where $\mathcal{R}_1$ and $\mathcal{R}_2$ are defined in (\ref{eq_residuals_paper}) or (\ref{eq_residuals_our}).
+where $\mathcal{R}_1$ and $\mathcal{R}_2$ are defined in (\ref{eq_residuals_our}).
 \end{Thm}
 \begin{proof}
 The estimate follows by applying energy arguments to (\ref{eq_error_eqs}).  The starting point is to test $\qp{\hat{e}_U', \hat{e}_V'}$ with $\qp{\hat{e}_U, \hat{e}_V}$, giving
@@ -603,7 +608,7 @@ We then use the Cauchy-Schwarz inequality to obtain
 \frac{1}{2}\frac{\mathrm{d}}{\mathrm{d}t}\pnorm{\qp{\hat{e}_U,\hat{e}_V}}^2
   \leq  \pnorm{\qp{\mathcal{R}_2,\mathcal{R}_1}} \pnorm{\qp{\hat{e}_U,\hat{e}_V}}
 \end{equation}
-In what follows, we will be using the $\leb^\infty$-norm in time
+In what follows, we will be using the $\leb^\infty$ norm in time
 \begin{equation}\label{eq_sup_pnorm}
 \pnorm{\qp{\hat{e}_U, \hat{e}_V}\qp{\tau}}=\sup_{t\in\qb{0,t^N}}\pnorm{\qp{\hat{e}_U, \hat{e}_V}\qp{t}}.
 \end{equation}
@@ -623,8 +628,10 @@ Using (\ref{eq_cauchy_ineq_eps}) with $\epsilon=1$, $a=\int_0^\tau\pnorm{\qp{\ma
 \end{proof}
 
 \begin{Rem}[The error at $t=0$]
-	Notice the constant $2\pnorm{\qp{\hat{e}_U,\hat{e}_V}\qp{0}}^2$ in (\ref{eq_bound}).  The significance of this is that the initial error, depending on the chosen reconstruction, may not be $0$.  This isbecause of the use of a staggered grid.
+	Notice the constant $2\pnorm{\qp{\hat{e}_U,\hat{e}_V}\qp{0}}^2$ in (\ref{eq_bound}).  The significance of this is that the initial error, depending on the chosen reconstruction, may not be $0$.  This is because of the use of a staggered grid.
 \end{Rem}
+
+\/*
 
 Before we proceed we will prove an additional bound.  In order to do this we will use an addional result
 \begin{Proposition}\label{lemma:L2_simplification}[$\leb_2$ simplification rule] If $\vect{a},\, \vect{b}\in \mathbb{R}^N,\, N\in \mathbb{N}$, $c\in \mathbb{R}$ and $f\,g \in \leb_2\qp{D}$ for some measurable domain $D$ are such that 
@@ -650,7 +657,7 @@ then
 We use  Lemma  \ref{lemma:L2_simplification} with $\vect{a}=\frac{1}{\sqrt{2}}\pnorm{\qp{\hat{e}_U, \hat{e}_V}\qp{\tau}}$, $\vect{b}=\sqrt{2}\int_0^\tau\pnorm{\qp{\mathcal{R}_2,\mathcal{R}_1}\qp{t}} \mathrm{d}t$ and $c = \frac{1}{\sqrt{2}}\pnorm{\qp{\hat{e}_U, \hat{e}_V}\qp{0}}$ and we obtain the required result.
 \end{proof}
 
-
+*/
 
 \section{Numerical Experiments}\label{sec_num_exp}
 The objectives in this section are to study the performance of the indicator 
@@ -658,7 +665,7 @@ The objectives in this section are to study the performance of the indicator
 \eta_1=\qp{2\pnorm{\qp{\hat{e}_U,\hat{e}_V}\qp{0}}^2+
 	4\qp{\int_0^{t^N}\pnorm{\qp{\mathcal{R}_2,\mathcal{R}_1}}\mathrm{d}t}^2}^{1/2}
 \end{equation}
-for the reconstructions in Defns. (\ref{defn_rec_paper}) and (\ref{defn_our_rec3})  and to compare their performance. To this extend we introduce the error
+for the reconstructions in Defns. (\ref{defn_rec_paper}) and (\ref{defn_our_rec3})  and to compare their performance on the basis of optimality and efficiency.  In this case, an efficient indicator whose effectivity index is one that is closer to one (see (\ref{eq_EI})). To this extend we introduce the error
 \begin{equation}\label{eq_error_eR}
 e_R :=\qp{\hat{e}_U,\hat{e_V}},
 \end{equation}
@@ -807,7 +814,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\hspace{-3cm}
 	%\centering
 	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u0_v10_paperrec_poly_our_res}	
-	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
+	\caption{Reconstruction from Defn. \ref{defn_rec_paper_poly}. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by (\ref{eq_bound_test}), EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_u0_v10}
 \end{figure}
 
@@ -815,7 +822,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\hspace{-3cm}
 	%\centering
 	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u0_v10_paperrec_poly_tristan}	
-	\caption{Polynomial  rec. from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
+	\caption{Reconstruction from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by (\ref{eq_bound_test}), EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_tristan_u0_v10}
 \end{figure}
 \subsection*{$u_0=0.1, v_0= 0.9$}
@@ -848,7 +855,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\hspace{-3cm}
 	%\centering
 	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u1_v9_paperrec_poly_our_res}	
-	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},  EOC error, EOC Estimator, Effectivity Index.}
+		\caption{Reconstruction from Defn. \ref{defn_rec_paper_poly}. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by (\ref{eq_bound_test}), EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_u01_v09}
 \end{figure}
 \begin{figure}[H]
@@ -889,7 +896,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\hspace{-3cm}
 	%\centering
 	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u2_v8_paperrec_poly_our_res}	
-	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},   EOC error, EOC Estimator, Effectivity Index.}
+		\caption{Reconstruction from Defn. \ref{defn_rec_paper_poly}. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by (\ref{eq_bound_test}), EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_u02_v08}
 \end{figure}
 
@@ -897,7 +904,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\hspace{-3cm}
 	%\centering
 	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u2_v8_paperrec_poly_tristan}	
-	\caption{Polynomial  rec. from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
+	\caption{Reconstruction from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by (\ref{eq_bound_test}), EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_tristan_u2_v8}
 \end{figure}
 
@@ -929,7 +936,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\hspace{-3cm}
 	%\centering
 	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u3_v7_paperrec_poly_our_res}	
-	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},   EOC error, EOC Estimator, Effectivity Index.}
+		\caption{Reconstruction from Defn. \ref{defn_rec_paper_poly}. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by (\ref{eq_bound_test}), EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_polynomial_u03_v07}
 \end{figure}
 
@@ -937,7 +944,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\hspace{-3cm}
 	%\centering
 	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u3_v7_paperrec_poly_tristan}	
-	\caption{Polynomial  rec. from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
+	\caption{Reconstruction from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by (\ref{eq_bound_test}), EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_tristan_u3_v7}
 \end{figure}
 
@@ -969,7 +976,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\hspace{-3cm}
 	%\centering
 	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u4_v6_paperrec_poly_our_res}	
-	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},  EOC error, EOC Estimator, Effectivity Index.}
+	\caption{Reconstruction from Defn. \ref{defn_rec_paper_poly}. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by (\ref{eq_bound_test}), EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_u04_v06}
 \end{figure}
 
@@ -977,7 +984,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\hspace{-3cm}
 	%\centering
 	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u4_v6_paperrec_poly_tristan}	
-	\caption{Polynomial  rec. from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
+\caption{Reconstruction from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by (\ref{eq_bound_test}), EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_tristan_u4_v6}
 \end{figure}
 
@@ -1009,14 +1016,14 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\hspace{-3cm}
 	%\centering
 	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u5_v5_paperrec_poly_our_res}	
-	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},   EOC error, EOC Estimator, Effectivity Index.}
+		\caption{Reconstruction from Defn. \ref{defn_rec_paper_poly}. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by (\ref{eq_bound_test}), EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_u05_v05}
 \end{figure}
 \begin{figure}[H]
 	\hspace{-3cm}
 	%\centering
 	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u5_v5_paperrec_poly_tristan}	
-	\caption{Polynomial  rec. from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
+\caption{Reconstruction from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by (\ref{eq_bound_test}), EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_tristan_u5_v5}
 \end{figure}
 
@@ -1048,7 +1055,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\hspace{-3cm}
 	%\centering
 	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u6_v4_paperrec_poly_our_res}	
-	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},  EOC error, EOC Estimator, Effectivity Index.}
+	\caption{Reconstruction from Defn. \ref{defn_rec_paper_poly}. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by (\ref{eq_bound_test}), EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_u06_v04}
 \end{figure}
 
@@ -1056,7 +1063,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\hspace{-3cm}
 	%\centering
 	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u6_v4_paperrec_poly_tristan}	
-	\caption{Polynomial  rec. from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
+	\caption{Reconstruction from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by (\ref{eq_bound_test}), EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_tristan_u6_v4}
 \end{figure}
 
@@ -1088,7 +1095,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\hspace{-3cm}
 	%\centering
 	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u7_v3_paperrec_poly_our_res}	
-	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},   EOC error, EOC Estimator, Effectivity Index.}
+	\caption{Reconstruction from Defn. \ref{defn_rec_paper_poly}. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by (\ref{eq_bound_test}), EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_u07_v03}
 \end{figure}
 
@@ -1096,7 +1103,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\hspace{-3cm}
 	%\centering
 	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u7_v3_paperrec_poly_tristan}	
-	\caption{Polynomial  rec. from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
+\caption{Reconstruction from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by (\ref{eq_bound_test}), EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_tristan_u7_v3}
 \end{figure}
 
@@ -1128,14 +1135,14 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\hspace{-3cm}
 	%\centering
 	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u8_v2_paperrec_poly_our_res}	
-	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},   EOC error, EOC Estimator, Effectivity Index.}
+	\caption{Reconstruction from Defn. \ref{defn_rec_paper_poly}. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by (\ref{eq_bound_test}), EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_u08_v02}
 \end{figure}
 \begin{figure}[H]
 	\hspace{-3cm}
 	%\centering
 	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u8_v2_paperrec_poly_tristan}	
-	\caption{Polynomial  rec. from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
+	\caption{Reconstruction from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by (\ref{eq_bound_test}), EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_tristan_u8_v2}
 \end{figure}
 
@@ -1168,14 +1175,14 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\hspace{-3cm}
 	%\centering
 	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u9_v1_paperrec_poly_our_res}	
-	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test},   EOC error, EOC Estimator, Effectivity Index.}
+	\caption{Reconstruction from Defn. \ref{defn_rec_paper_poly}. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by (\ref{eq_bound_test}), EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_u09_v01}
 \end{figure}
 \begin{figure}[H]
 	\hspace{-3cm}
 	%\centering
 	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u9_v1_paperrec_poly_tristan}	
-	\caption{Polynomial  rec. from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
+\caption{Reconstruction from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by (\ref{eq_bound_test}), EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_tristan_u9_v1}
 \end{figure}
 
@@ -1208,7 +1215,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\hspace{-3cm}
 	%\centering
 	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u10_v0_paperrec_poly_our_res}	
-	\caption{Polynomial paper rec. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
+	\caption{Reconstruction from Defn. \ref{defn_rec_paper_poly}. (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by (\ref{eq_bound_test}), EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_u10_v1}
 \end{figure}
 
@@ -1216,7 +1223,7 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 	\hspace{-3cm}
 	%\centering
 	\includegraphics[scale=0.55]{fig_LeapFrogplots_1x5_sin_IC_harmonic_u10_v0_paperrec_poly_tristan}	
-	\caption{Polynomial  rec. from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by \ref{eq_bound_test}, EOC error, EOC Estimator, Effectivity Index.}
+\caption{Reconstruction from Defn. \ref{defn_our_rec3} (from left to right) Error $e$ given by (\ref{eq_error_eR}), Estimator $\eta_1$ given by (\ref{eq_bound_test}), EOC error, EOC Estimator, Effectivity Index.}
 	\label{fig_all_in_one_paperrec_poly_tristan_u10_v0}
 \end{figure}
 
@@ -1225,17 +1232,57 @@ V^{1/2} &= \frac{1}{\Delta t}\qp{U^1-U^0}.
 \section{Discussion}\label{sec:discussion}
 In this section we discuss the findings from the numerical experiments.  Briefly, we tested the aposterior bound (\ref{eq_bound_test}) with two different reconstructions: \ref{defn_rec_paper_poly} from \cite{georgoulis2016posteriori} and the reconstruction form Defn. \ref{defn_our_rec3} . The error was measured in the $L^{\infty}-$norm in time. 
 
- We investigated the temporal evolution of the error (\ref{eq_error_eR})  and the bound (\ref{eq_bound_test}) and we compared the performances of the  reconstructions in terms of their EOCs and the Effectivity index.
+ We investigated the temporal evolution of the error (\ref{eq_error_eR})  and the bound (\ref{eq_bound_test}) and we compared the performances of the  reconstructions in terms of their EOCs and the effectivity index.
 
-Firstly,  both reconstructions were of optimal order in all numerical experiments in \S \ref{sec:num_exp}. This means that they both converged with the same order as the underlying error of the numerical scheme.  
-Additionally, the both lead to robust a posteriori estimates, in the sense that there is no constant in the estimate that goes to infinity  while the true error is finite.
+Firstly,  both reconstructions are of optimal order in all numerical experiments in \S \ref{sec:num_exp}. This means that they both converged with the same order as the underlying error of the numerical scheme.  
+Additionally, they both lead to robust a posteriori estimates, in the sense that the estimate does not become infinite while the error is finite.
 
-The difference between them reconstructions is in terms of their efficiency.  The reconstruction in (\ref{eq_rec_paper}) led to a sharper estimate for the bound (\ref{eq_bound_test}) compared to the reconstructions from Defn.  \ref{defn_our_rec3}.  This can be seen from the Effectivity Index (last subplot on the right) in the figures in \S\ref{sec:num_exp}.  
+The difference between them reconstructions is in terms of their efficiency.  The reconstruction in (\ref{eq_rec_paper}) led to a sharper estimate for the bound (\ref{eq_bound_test}) compared to the reconstructions from Defn.  \ref{defn_our_rec3}.  This can be seen from the Effectivity Index (last subplot on the right) in the figures in \S\ref{sec:num_exp}.  Notice that the lead contribution to the bound comes from $\mathcal{R}_2$ which is the right-most plot in each figure.
 
-In order to understand why this is, we substitute the exact solution in both (\ref{eq_rec_paper_poly_alternative}) and in the reconstruction in Defn.(\ref{defn_our_rec3}).  In both cases, the lead contributor to the bound  (\ref{eq_bound_test}) is the term $\mathcal{R}_2$ in (\ref{eq_residuals_our}), which is $\mathcal{O}\qp{\Delta t^2}$ in the bound.  However, in the case of (\ref{eq_rec_paper_poly_alternative}) the constant in front of this term is smaller compared to that in Defn. \ref{defn_our_rec3}.  This can be confirmed by visually inspecting the last two plots on the right for any of the Figures in \S \ref{sec:num_exp}, which illustrate the evolution of $\mathcal{R}_1$ and $\mathcal{R}_2$.  
+This difference in efficiency between the two reconstructions can be understood by substituting the exact solution in the coefficients.  It is enough to look at $\mathcal{R}_2$ because it is the lead contribution in both cases.  We start  from (\ref{defn_rec_paper_poly}).  We have that 
+\begin{equation}
+\mathcal{R}_2 = \rec{U}'\qp{t}- \rec{V}\qp{t},
+\end{equation}
+Starting from Defn. \ref{defn_rec_paper_poly}, looking at the interval $t\in\qb{t^{n}, t^{n+1/2}}$, we have that
+\begin{equation*}
+\begin{aligned}
+\rec{V}\qp{t}=	& V^{n-1/2}
++\qp{\frac{1}{4}U^{n+1}-U^n-\frac{1}{4}U^{n-1}}\qp{t-t^{n-1/2}}
+-\frac{1}{4\Delta t}\qp{U^{n+1}-U^{n-1}}\qp{t-t^{n-1/2}}^2
+\end{aligned}
+\end{equation*}
+and 
+\begin{equation*}
+\begin{aligned}
+\rec{U}'\qp{t}=	-\frac{1}{4}V^{n+3/2}+V^{n+1/2}+\frac{1}{4}V^{n-1/2}
++\frac{1}{2\Delta t}\qp{V^{n+3/2}-V^{n-1/2}}\qp{t-t^{n}}.
+\end{aligned}
+\end{equation*}
+In this case, we are interested in the constants in these expressions, as they will lead to the leading order error term:
+\begin{equation*}
+\rec{U}'-\rec{V} = -\frac{1}{4}\qp{V^{n+3/2}-V^{n+1/2}+3V^{n-1/2}} + h.o.t.
+\end{equation*}.
+
+Substituting the exact solutions $u$ and $v$ for $U$ and $V$ and expanding up to order 2 we obtain the  leading order error term 
+\begin{equation}
+\qp{\frac{1}{2}v'\qp{t}-\frac{1}{4}v''\qp{t}}\Delta t.
+\end{equation}
+
+In the case of the reconstruction from Defn. \ref{defn_our_rec3}, we obtain
+\begin{equation*}
+\begin{aligned}
+\rec{U}'-\rec{V} &=\frac{1}{\Delta t}\qp{U^{n+1}-U^n+\frac{1}{2}\Delta t^2 U^n} -V^{n-1/2}+ h.o.t.,\\
+&= V^{n+1/2}-V^{n-1/2}+\frac{\Delta t}{2}U^n.
+\end{aligned}
+\end{equation*}.
+Substituting in the exact solutions yields the relevant error term as 
+\begin{equation}
+\qp{v'\qp{t}+\frac{1}{2} u\qp{t}}\Delta t=\qp{v'\qp{t}-\frac{1}{2} u''\qp{t}}\Delta t=\qp{v'\qp{t}-\frac{1}{2} v'\qp{t}}\Delta t
+\end{equation}
+In both cases, the lead contribution to the bound (\ref{eq_bound_test}) comes from $\mathcal{R}_2$ in (\ref{eq_residuals_our}), which is $\mathcal{O}\qp{\Delta t^2}$ in the bound.  However, in the case of (\ref{eq_rec_paper_poly_alternative}) the constant in front of this term is smaller compared to that in Defn. \ref{defn_our_rec3}.  This can be confirmed by visually inspecting the last two plots on the right for any of the Figures in \S \ref{sec:num_exp}, which illustrate the evolution of $\mathcal{R}_1$ and $\mathcal{R}_2$.  
 
 \section{Conclusion}
-In this chapter we tested the reconstruction of \cite{georgoulis2016posteriori} against one derived using our framework in the context of a model problem given by (\ref{eq_model_problem}), discretized by the leap-frog scheme. We have found that both reconstructions lead to reliable, robust a posteriori estimates.  The difference between them is in terms of efficiency.  The reconstruciton from \cite{georgoulis2016posteriori} leads to a sharper bound compared to that presented in Defn. \ref{defn_our_rec3}, on account of the smaller constant in the leading order error term. 
+In this chapter we tested the reconstruction of \cite{georgoulis2016posteriori} against one derived using our framework in the context of a model problem given by (\ref{eq_model_problem}), discretized by a reformulated leap-frog scheme. We have found that both reconstructions lead to reliable, robust a posteriori estimates.  The difference between them is in terms of efficiency.  The reconstruciton from \cite{georgoulis2016posteriori} leads to a sharper bound compared to that presented in Defn. \ref{defn_our_rec3}, on account of the smaller constant in the leading order error term. 
 
 \bibliography{apostfd_bibdesk}
 \bibliographystyle{ieeetr}
