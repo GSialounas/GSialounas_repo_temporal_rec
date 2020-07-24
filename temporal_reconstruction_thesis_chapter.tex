@@ -1237,84 +1237,11 @@ In this section we discuss the findings from the numerical experiments.  Briefly
 Firstly,  both reconstructions are of optimal order in all numerical experiments in \S \ref{sec:num_exp}. This means that they both converged with the same order as the underlying error of the numerical scheme.  
 Additionally, they both lead to robust a posteriori estimates, in the sense that the estimate does not become infinite while the error is finite.
 
-The difference between them reconstructions is in terms of their efficiency.  The reconstruction in (\ref{eq_rec_paper}) led to a sharper estimate for the bound (\ref{eq_bound_test}) compared to the reconstructions from Defn.  \ref{defn_our_rec3}.  This can be seen from the Effectivity Index (last subplot on the right) in the figures in \S\ref{sec:num_exp}.  Notice that the lead contribution to the bound comes from $\mathcal{R}_2$ which is the right-most plot in each figure.
+The difference between the reconstructions is in terms of their efficiency.  The reconstruction in (\ref{eq_rec_paper}) led to a sharper estimate for the bound (\ref{eq_bound_test}) compared to the reconstructions from Defn.  \ref{defn_our_rec3}.  This can be seen from the Effectivity Index (last subplot on the right) in the figures in \S\ref{sec:num_exp}.  
 
-This difference in efficiency between the two reconstructions can be understood by substituting the exact solution in the coefficients.  It is enough to look at $\mathcal{R}_2$ because it is the lead contribution in both cases.  We start  from (\ref{defn_rec_paper_poly}).  We have that 
-\begin{equation}
-\mathcal{R}_2 = \rec{U}'\qp{t}- \rec{V}\qp{t},
-\end{equation}
-Starting from Defn. \ref{defn_rec_paper_poly}, looking at the interval $t\in\qb{t^{n}, t^{n+1/2}}$, we have that
-\begin{equation*}
-\begin{aligned}
-\rec{V}\qp{t}=	& V^{n-1/2}
-+\qp{\frac{1}{4}U^{n+1}-U^n-\frac{1}{4}U^{n-1}}\qp{t-t^{n-1/2}}
--\frac{1}{4\Delta t}\qp{U^{n+1}-U^{n-1}}\qp{t-t^{n-1/2}}^2
-\end{aligned}
-\end{equation*}
-and 
-\begin{equation*}
-\begin{aligned}
-\rec{U}'\qp{t}=	-\frac{1}{4}V^{n+3/2}+V^{n+1/2}+\frac{1}{4}V^{n-1/2}
-+\frac{1}{2\Delta t}\qp{V^{n+3/2}-V^{n-1/2}}\qp{t-t^{n}}.
-\end{aligned}
-\end{equation*}
-\subsection{$\qp{t^n, t^{n+1/2}}$}
-\subsubsection{constants}
-\begin{equation*}
-\begin{aligned}
-\text{Defn. \ref{defn_rec_paper_poly}: }&\frac{\Delta t}{4}U^{n+1}-\frac{3\Delta t}{4}U^n. \\
-\text{Defn. \ref{defn_our_rec3}: }&-\frac{\Delta t}{2}U^{n}.
-\end{aligned}
-\end{equation*}
-
-\subsubsection{first order}
-\begin{equation*}
-\begin{aligned}
-\text{Defn. \ref{defn_rec_paper_poly}: }& -\qp{\frac{1}{4}U^{n+1}-U^n-\frac{1}{4}U^{n-1}} \frac{\Delta t}{2}+ 
- \qp{-\frac{3}{4}U^{n+1}+\frac{1}{2}U^n+\frac{1}{4}U^{n-1}}\qp{t-t^n},\\
- \text{Defn. \ref{defn_our_rec3}: }&  \qb{\qp{\frac{1}{2}+\frac{\Delta t^2}{8}}U^{n-1}+\frac{1}{2}U^n}\frac{\Delta t}{2}+
- \qb{\qp{\frac{1}{2}+\frac{\Delta t^2}{8}}U^{n-1}-\frac{1}{2}U^n}\qp{t-t^n}
-\end{aligned}
-\end{equation*}
-
-\subsubsection{second order}
-\begin{equation*}
-\begin{aligned}
-\text{Defn. \ref{defn_rec_paper_poly}: }& \frac{1}{4\Delta t}\qp{U^{n+1}-U^{n-1}}\qp{t-t^{n-1/2}}^2,\\
-\text{Defn. \ref{defn_our_rec3}: }&  \frac{1}{\Delta t}\qb{\frac{\Delta t^2}{8}\qp{U^{n}-U^{n-1}}+\frac{1}{2}\qp{U^{n+1}-U^{n-1}}}\qp{t-t^{n-1/2}}^2\\
-&+\frac{3}{\Delta t^2}\qb{-\frac{1}{2}\Delta t\qp{U^n-U^{n-1}}+\frac{\Delta t^2}{8}U^{n-1}}\qp{t-t^{n-1/2}}^2
-\end{aligned}
-\end{equation*}
-
-\subsection{$\qp{t^{n+1/2},t^{n+1}}$}
-\subsubsection{constants}
-\begin{equation*}
-\begin{aligned}
-\text{Defn. \ref{defn_rec_paper_poly}: }&\frac{\Delta t}{4}U^{n+1}+\frac{\Delta t}{4}U^n. \\
-\text{Defn. \ref{defn_our_rec3}: }&\frac{\Delta t}{2}U^{n}.
-\end{aligned}
-\end{equation*}
-
-
-\subsubsection{first order}
-\begin{equation*}
-\begin{aligned}
-\text{Defn. \ref{defn_rec_paper_poly}: }& \qp{\frac{1}{4}U^{n+2}-U^{n+1}-\frac{1}{4}U^{n}}\frac{\Delta t}{2}+\qp{-\frac{1}{4}U^{n+2}+\frac{1}{2}U^{n+1}-\frac{1}{4}U^{n}} \qp{t-t^n}\\
-\text{Defn. \ref{defn_our_rec3}: }&  -\qb{\qp{\frac{1}{2}+\frac{\Delta t^2}{8}}U^{n}+\frac{1}{2}U^{n+1}}\frac{\Delta t}{2}+
-\qb{\qp{-\frac{1}{2}+\frac{\Delta t^2}{8}}U^{n}+\frac{1}{2}U^{n+1}}\qp{t-t^n}
-\end{aligned}
-\end{equation*}
-\subsubsection{second order}
-\begin{equation*}
-\begin{aligned}
-\text{Defn. \ref{defn_rec_paper_poly}: }& \frac{1}{4\Delta t}\qp{U^{n+2}-U^{n}}\qp{t-t^{n+1/2}}^2,\\
-\text{Defn. \ref{defn_our_rec3}: }&  \frac{1}{\Delta t}\qb{\frac{\Delta t^2}{8}\qp{U^{n+1}-U^{n}}+\frac{1}{2}\qp{U^{n+2}-U^{n}}}\qp{t-t^{n+1/2}}^2\\
-&+\frac{3}{\Delta t^2}\qb{-\frac{1}{2}\Delta t\qp{U^{n+1}-U^{n}}+\frac{\Delta t^2}{8}U^{n}}\qp{t-t^{n+1/2}}^2
-\end{aligned}
-\end{equation*}
 
 \section{Conclusion}
-In this chapter we tested the reconstruction of \cite{georgoulis2016posteriori} against one derived using our framework in the context of a model problem given by (\ref{eq_model_problem}), discretized by a reformulated leap-frog scheme. We have found that both reconstructions lead to reliable, robust a posteriori estimates.  The difference between them is in terms of efficiency.  The reconstruciton from \cite{georgoulis2016posteriori} leads to a sharper bound compared to that presented in Defn. \ref{defn_our_rec3}, on account of the smaller constant in the leading order error term. 
+In this chapter we tested the reconstruction of \cite{georgoulis2016posteriori} against one derived using our framework in the context of a model problem given by (\ref{eq_model_problem}), discretized by a reformulated leap-frog scheme. We have found that both reconstructions lead to reliable, robust a posteriori estimates.  The difference between them is in terms of efficiency.  The reconstruction from \cite{georgoulis2016posteriori} leads to a sharper bound compared to that presented in Defn. \ref{defn_our_rec3}, on account of the smaller constant in the leading order error term. 
 
 
 \bibliography{apostfd_bibdesk}
