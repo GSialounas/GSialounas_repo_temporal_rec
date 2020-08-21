@@ -96,10 +96,33 @@ for m = 1:length(maxit_arr)
         
         [h,v] = redependent(U1,U2,N, leftboundary, rightboundary,Choice);     % Recalculates dependent variables
         
+
+        timestore(iterations) = t; % Stores time at each iteration
+        timestep(iterations) = dt; % Stores time step at each iteration
+        
+        [un1, un2, F1, F2] = dependent(h,v,g);   % Recalculates flux vectors and
+        [h,v] = redependent(U1,U2,N, leftboundary, rightboundary,Choice);     % Recalculates dependent variables
+        
+        hnew = [h(2:end-1); h(2:end-1).*v(2:end-1)];
+        f_h_new =  [0.5 * c * (F1(3:end) - F1(1:end-2)); 0.5 * c *(F2(3:end) - F2(1:end-2))];
+        
+         
+        for iq = 1 : nq
+            tq(iq) = 0.5*dt*xq(iq) + t + dt/2; %iq-th temporal gauss point on [ti,ti+1]
+            [RL2iq,RL2iq_arr, c_0_coeff_arr_new, c_0_coeff_arr_old, IUh] = compute_Rs_vector_temp_3_spatiotemp_3_shw_semidiscrete(x,dist_x_pl,dist_x_min,hold,hnew,tq(iq),t,dt,f_h_old,f_h_new,1,1); %compute R at gauss point
+            L2L2R = L2L2R + wq(iq)*dt*(RL2iq); %quadrature formula
+            L2L2R_arr = L2L2R_arr + wq(iq)*dt*(RL2iq_arr); %quadrature formula
+           
+            
+            if (L2L2R<0)
+                disp('L2L2R<0')
+            end
+        end
+        
         if showplot ==1
             subplot(2,1,1)
-            plot(x, h(2:end-1),'b')  % Plots water height aproximations for each timestep.
-            axis([p q min(h) 1.1*max(h)])
+            plot(x, v(2:end-1),'b')  % Plots water height aproximations for each timestep.
+            axis([p q min(v) 1.1*max(v)])
             
             %=============== Sets titles and labels depending on choice ===========
             title('Water height for Lax-Friedrichs Scheme','Fontsize',12)
@@ -108,12 +131,12 @@ for m = 1:length(maxit_arr)
             ylabel('h [m]', 'Fontsize', 12)
             
             subplot(2,1,2)
-            plot(x, v(2:end-1),'b')   % Plots water velocity aproximations for each timestep.
-            axis([p q min(v) 1.1*max(v)])
-            set(gcf, 'Position',  [100, 100, 800, 400])
+            plot(x, IUh,'b')   % Plots water velocity aproximations for each timestep.
+            axis([p q min(IUh) 1.1*max(IUh)])
+            %set(gcf, 'Position',  [100, 100, 800, 400])
             
             %=============== Sets titles and labels depending on choice ===========
-            title('Water velocity for Lax-Friedrichs Scheme','Fontsize',12)
+            title('Recon for Lax-Friedrichs Scheme','Fontsize',12)
             
             xlabel('x [m]','Fontsize', 12)
             ylabel('v [m/s]', 'Fontsize', 12)
@@ -121,27 +144,6 @@ for m = 1:length(maxit_arr)
             
             
             pause(pausetime)   % Shows results for each timestep.
-        end
-        timestore(iterations) = t; % Stores time at each iteration
-        timestep(iterations) = dt; % Stores time step at each iteration
-        
-        [un1, un2, F1, F2] = dependent(h,v,g);   % Recalculates flux vectors and
-        [h,v] = redependent(U1,U2,N, leftboundary, rightboundary,Choice);     % Recalculates dependent variables
-        
-        hnew = [h(2:end-1); h(2:end-1).*v(2:end-1)];
-        f_h_new =  [0.5 * c * (F1(3:end) - F1(1:end-2));- 0.5 * c *(F2(3:end) - F2(1:end-2))];
-        
-         
-        for iq = 1 : nq
-            tq(iq) = 0.5*dt*xq(iq) + t + dt/2; %iq-th temporal gauss point on [ti,ti+1]
-            [RL2iq,RL2iq_arr, c_0_coeff_arr_new, c_0_coeff_arr_old] = compute_Rs_vector_temp_3_spatiotemp_3_shw_semidiscrete(x,dist_x_pl,dist_x_min,hold,hnew,tq(iq),t,dt,f_h_old,f_h_new,1,1); %compute R at gauss point
-            L2L2R = L2L2R + wq(iq)*dt*(RL2iq); %quadrature formula
-            L2L2R_arr = L2L2R_arr + wq(iq)*dt*(RL2iq_arr); %quadrature formula
-           
-            
-            if (L2L2R<0)
-                disp('L2L2R<0')
-            end
         end
         
         time_arr(it) = it*dt;

@@ -1,4 +1,4 @@
-function [L2Rt,L2Rt_arr,c_0_coeff_arr_new, c_0_coeff_arr_old] = compute_Rs_vector_temp_3_spatiotemp_3_shw_semidiscrete(x,dist_x_pl,dist_x_min,h_old,h_new,evalt,tj,dt,f_h_old,f_h_new,spatial_disc,flux_fn)
+function [L2Rt,L2Rt_arr,c_0_coeff_arr_new, c_0_coeff_arr_old, IU_hv] = compute_Rs_vector_temp_3_spatiotemp_3_shw_semidiscrete(x,dist_x_pl,dist_x_min,h_old,h_new,evalt,tj,dt,f_h_old,f_h_new,spatial_disc,flux_fn)
 global nq xq wq
 g=9.81;
 dx= x(2)-x(1);

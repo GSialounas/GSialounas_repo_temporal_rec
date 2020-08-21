@@ -10,13 +10,13 @@ u_init=1;
 v_init =1;
 which_rec = "normal_one"; 
 
-% for i =1:length(u_init) 
-% 
-%         var_out = fn_lxf_shw();
-% 
-% 
-% 
-% end
+for i =1:length(u_init) 
+
+        var_out = fn_lxf_shw();
+
+
+
+end
 
 xlim_p = T;
 ylim_p1 = 1e-10;

@@ -75,7 +75,7 @@ for i_scheme = 1:n_schemes
             xlabel('$t_i$','Interpreter','latex','FontSize',f_size)
             grid on;
             xlim([0, xlim_p])
-            ylim(ylim_p)
+            %ylim(ylim_p)
             hold on;
 %             
 % 
